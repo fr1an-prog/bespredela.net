@@ -1,273 +1,902 @@
-<!-- ============================================ -->
-<!-- ОБНОВЛЁННЫЙ СОВЕТ #2 (Электрички/МЦД) -->
-<!-- ============================================ -->
-<div class="tip-card fade-in" data-category="trains" data-id="2">
-    <div class="tip-header" onclick="toggleTip(this)">
-        <div class="tip-header-left">
-            <span class="tip-number">#2</span>
-            <span class="tip-title">Электрички и МЦД: Посадка на станции без кассы, блеф «кассиров-контролёров» и право на оплату на выходе</span>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Юридический Щит Пассажира | 100+ Советов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a2f1a 25%, #0d1f2d 50%, #1a3a2a 75%, #0a0a0a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        * {
+            -webkit-user-drag: none;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(34, 85, 34, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(13, 31, 45, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 80%, rgba(26, 58, 42, 0.15) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Ctext x='50%25' y='50%25' font-family='Arial, sans-serif' font-size='40' fill='%23888888' opacity='0.22' transform='rotate(-30, 400, 300)' text-anchor='middle' dominant-baseline='middle'%3EПротиводействие беспределу %7C @BespredelaNet%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-position: 0 0;
+            background-size: 500px 380px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .disclaimer-banner {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.15));
+            border: 2px solid rgba(255, 193, 7, 0.6);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 10px 40px rgba(255, 193, 7, 0.2),
+                0 0 30px rgba(255, 152, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: bannerPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes bannerPulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(255, 193, 7, 0.2), 0 0 30px rgba(255, 152, 0, 0.15); }
+            50% { box-shadow: 0 10px 50px rgba(255, 193, 7, 0.35), 0 0 45px rgba(255, 152, 0, 0.25); }
+        }
+
+        .disclaimer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .disclaimer-icon {
+            font-size: 2.5em;
+            animation: shake 2s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .disclaimer-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ffc107;
+            text-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .disclaimer-text {
+            color: #f5f5dc;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+
+        .disclaimer-text strong {
+            color: #ffc107;
+        }
+
+        .disclaimer-text .highlight {
+            color: #ff9800;
+            font-weight: 600;
+        }
+
+        .disclaimer-footer {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 193, 7, 0.3);
+            font-size: 0.9em;
+            color: #b0a080;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.9) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(34, 85, 34, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #4ade80, #22d3ee, #84cc16);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(74, 222, 128, 0.3);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.5)); }
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 1.1em;
+        }
+
+        .header .subtitle-joke {
+            margin-top: 10px;
+            font-size: 0.95em;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .search-container {
+            position: relative;
+            z-index: 10;
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(20, 30, 20, 0.8);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 50px;
+            padding: 5px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(74, 222, 128, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-wrapper:hover {
+            border-color: rgba(74, 222, 128, 0.6);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(74, 222, 128, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-wrapper:focus-within {
+            border-color: rgba(74, 222, 128, 0.8);
+            box-shadow: 
+                0 15px 50px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(74, 222, 128, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .search-icon {
+            padding: 12px 15px;
+            color: #4ade80;
+            font-size: 1.2em;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e0e0e0;
+            font-size: 1em;
+            padding: 12px 0;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .search-input::placeholder {
+            color: #6b7280;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .search-btn:active {
+            transform: scale(0.95);
+        }
+
+        .stats-bar {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(20, 30, 20, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 15px;
+            padding: 15px 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(74, 222, 128, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4ade80, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .npa-toggle-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .npa-toggle-btn {
+            background: rgba(20, 30, 20, 0.8);
+            border: 1px solid rgba(74, 222, 128, 0.4);
+            color: #4ade80;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .npa-toggle-btn:hover {
+            background: rgba(34, 85, 34, 0.8);
+            border-color: #4ade80;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.2);
+        }
+
+        .npa-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(15, 25, 15, 0.95);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 15px;
+            margin-top: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .npa-content.open {
+            max-height: 20000px;
+            padding: 20px;
+        }
+
+        .npa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            text-align: left;
+        }
+
+        .npa-item {
+            background: rgba(10, 20, 10, 0.6);
+            border-left: 3px solid #4ade80;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .npa-item-title {
+            color: #22d3ee;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .npa-item-text {
+            font-size: 0.85em;
+            color: #d1d5db;
+            font-family: 'Consolas', monospace;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: rgba(20, 30, 20, 0.6);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 25px;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            border-color: rgba(74, 222, 128, 0.5);
+            color: #4ade80;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(22, 163, 74, 0.3));
+            border-color: #22c55e;
+            color: #4ade80;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+
+        .collapse-all-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .collapse-all-btn {
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(13, 31, 45, 0.4));
+            border: 2px solid rgba(34, 211, 238, 0.5);
+            color: #22d3ee;
+            padding: 14px 35px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.05em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(34, 211, 238, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collapse-all-btn:hover {
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(13, 31, 45, 0.6));
+            border-color: #67e8f9;
+            color: #67e8f9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(34, 211, 238, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .collapse-all-btn .btn-icon {
+            display: inline-block;
+            margin-right: 10px;
+            transition: transform 0.4s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .collapse-all-btn .btn-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .collapse-all-btn.expanded .btn-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #4ade80;
+            margin: 40px 0 25px;
+            padding-left: 20px;
+            border-left: 4px solid #22c55e;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+        }
+
+        .tip-card {
+            background: rgba(15, 25, 15, 0.85);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 20px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(74, 222, 128, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.03), transparent);
+            transition: left 0.7s ease;
+            pointer-events: none;
+        }
+
+        .tip-card:hover::before {
+            left: 100%;
+        }
+
+        .tip-card:hover {
+            border-color: rgba(74, 222, 128, 0.4);
+            box-shadow: 
+                0 15px 50px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(74, 222, 128, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .tip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tip-header:hover {
+            background: rgba(34, 85, 34, 0.15);
+        }
+
+        .tip-header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .tip-number {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+            white-space: nowrap;
+        }
+
+        .tip-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #4ade80;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
+        }
+
+        .tip-toggle-icon {
+            font-size: 1.5em;
+            color: #4ade80;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: 15px;
+        }
+
+        .tip-card.open .tip-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .tip-content-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tip-card.open .tip-content-wrapper {
+            max-height: 50000px;
+            transition: max-height 1.2s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .tip-content {
+            padding: 10px 30px 30px;
+            border-top: 1px solid rgba(74, 222, 128, 0.15);
+        }
+
+        .section-block {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+
+        .section-block.essence { 
+            border-color: #22d3ee; 
+            background: rgba(34, 211, 238, 0.08); 
+        }
+
+        .section-block.law { 
+            border-color: #4ade80; 
+            background: rgba(74, 222, 128, 0.08); 
+        }
+
+        .section-block.risk { 
+            border-color: #ef4444; 
+            background: rgba(239, 68, 68, 0.08); 
+        }
+
+        .section-block.action { 
+            border-color: #fbbf24; 
+            background: rgba(251, 191, 36, 0.08); 
+        }
+
+        .section-block.violation { 
+            border-color: #a855f7; 
+            background: rgba(168, 85, 247, 0.08); 
+        }
+
+        .section-block-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .section-block.essence .section-block-title { color: #22d3ee; }
+        .section-block.law .section-block-title { color: #4ade80; }
+        .section-block.risk .section-block-title { color: #ef4444; }
+        .section-block.action .section-block-title { color: #fbbf24; }
+        .section-block.violation .section-block-title { color: #a855f7; }
+
+        .section-block p {
+            color: #d1d5db;
+            font-size: 1em;
+            line-height: 1.8;
+        }
+
+        .section-block strong {
+            color: #f0f0f0;
+        }
+
+        .section-block em {
+            color: #a7f3d0;
+            font-style: italic;
+        }
+
+        .section-block ol {
+            margin: 10px 0 0 0;
+            padding-left: 25px;
+        }
+
+        .section-block li {
+            margin-bottom: 10px;
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        .section-block li em {
+            color: #67e8f9;
+        }
+
+        .law-ref {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.92em;
+            color: #a7f3d0;
+            display: block;
+            margin: 8px 0;
+            padding: 10px 12px;
+            border-left: 2px solid rgba(74, 222, 128, 0.3);
+            background: rgba(10, 20, 10, 0.4);
+            border-radius: 0 8px 8px 0;
+            line-height: 1.7;
+        }
+
+        .law-ref .quote {
+            display: block;
+            margin-top: 5px;
+            padding-left: 15px;
+            border-left: 2px dashed rgba(74, 222, 128, 0.2);
+            color: #86efac;
+            font-style: italic;
+        }
+
+        .tip-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            border-top: 1px solid rgba(74, 222, 128, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            font-size: 0.9em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(30, 50, 30, 0.8);
+            border: 1px solid rgba(74, 222, 128, 0.4);
+            color: #4ade80;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(34, 85, 34, 0.8);
+            border-color: #4ade80;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(74, 222, 128, 0.2);
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer p {
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .footer strong {
+            color: #4ade80;
+        }
+
+        .copyright-bar {
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(135deg, rgba(15, 25, 15, 0.95), rgba(10, 20, 30, 0.95));
+            border-top: 2px solid rgba(74, 222, 128, 0.3);
+            padding: 25px 20px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .copyright-bar p {
+            color: #9ca3af;
+            font-size: 0.95em;
+            margin: 5px 0;
+        }
+
+        .copyright-bar .copyright-main {
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 1em;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+        }
+
+        .copyright-bar .copyright-thanks {
+            color: #d1d5db;
+            font-style: italic;
+            margin: 8px 0;
+        }
+
+        .copyright-bar .copyright-team {
+            color: #22d3ee;
+            font-weight: 600;
+            font-size: 1.05em;
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+        }
+
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #22c55e;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 10000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #22c55e, #16a34a);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #4ade80, #22c55e);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .tip-header { padding: 18px 20px; }
+            .tip-title { font-size: 1.05em; }
+            .tip-content { padding: 10px 20px 20px; }
+            .section-title { font-size: 1.4em; }
+            .stats-bar { gap: 12px; }
+            .stat-item { padding: 12px 18px; }
+            .nav-tab { padding: 10px 18px; font-size: 0.9em; }
+            .disclaimer-banner { padding: 20px; }
+            .disclaimer-title { font-size: 1.1em; }
+            .collapse-all-btn { padding: 12px 25px; font-size: 0.95em; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="bg-animation"></div>
+<div class="watermark"></div>
+
+<header class="header">
+    <h1>⚖️ Юридический Щит Пассажира</h1>
+    <p>Противодействие беспределу контролёров в метро, автобусах, трамваях, МЦД и электричках</p>
+    <p class="subtitle-joke">Контролеры думают, что им всё можно. Пора показать им, что они тупые и борзые, а закон на нашей стороне)</p>
+</header>
+
+<div class="container">
+    <div class="disclaimer-banner">
+        <div class="disclaimer-header">
+            <span class="disclaimer-icon">⚠️</span>
+            <span class="disclaimer-title">ПРЕДУПРЕЖДЕНИЕ</span>
         </div>
-        <span class="tip-toggle-icon">▼</span>
-    </div>
-    <div class="tip-content-wrapper">
-        <div class="tip-content">
-
-            <div class="section-block essence">
-                <span class="section-block-title">📌 Суть совета (Максимально развернуто)</span>
-                <p>
-                    В пригородных поездах (электричках, МЦД) обстановка специфическая. По вагонам ходят не классические контролёры, а так называемые «кассиры-контролёры» или сотрудники ЧОП (частной охранной организации), которым дали в руки терминалы. Их главная задача — не наказать безбилетника, а впарить вам билет с наценкой или заставить оплатить услугу оформления билета прямо в вагоне, чтобы выполнить свой план продаж. Они борзые, они могут блокировать проход, они могут кричать, что вы обязаны купить билет у них прямо сейчас, иначе они вас высадят на следующей станции. Машинист, кстати, им не подчиняется — машинист подчиняется диспетчеру и расписанию.
-                    <br><br>
-                    Но у них есть одна огромная, жирная уязвимость, о которой они сами, скорее всего, не догадываются, потому что их обучали только тому, как выкачивать деньги. Согласно <strong>Приказу Минтранса РФ от 05.09.2022 № 352</strong> (действует с 1 сентября 2023 года по 1 сентября 2029 года) и <strong>Приказу Минтранса РФ от 19.12.2013 № 473</strong> (действует бессрочно с 1 сентября 2014 года), если вы сели на станции, где нет кассы или терминала (а таких станций в Москве и области пруд пруди, особенно на МЦД и мелких платформах), вы имеете полное, неотъемлемое право оплатить проезд в вагоне ИЛИ на станции назначения. И самое главное — с вас ЗАПРЕЩЕНО брать сбор за оформление билета!
-                    <br><br>
-                    Они будут врать, что вы обязаны купить билет у них. Они будут врать, что вы должны заплатить штраф. Они будут врать, что машинист вас высадит. Ваша задача — включить режим занудного юриста, ткнуть их носом в Приказ Минтранса и спокойно выйти на своей станции, не заплатив им ни копейки сверх стоимости самого проезда.
-                    <br><br>
-                    <em>(Небольшое, но важное уточнение в скобках: если вы прошли через турникеты на станции отправления как-то «не очень правильно» — перепрыгнули, подлезли снизу, не зафиксировали поездку, не оплатили — это вообще не имеет значения. Вы просто заявляете, что совершили посадку на станции, где отсутствуют работающие билетные кассы и терминалы самообслуживания. Точную станцию отправления вы им НЕ НАЗЫВАЕТЕ — это ваше конституционное право по статье 51 Конституции РФ: никто не обязан свидетельствовать против себя самого. Вы просто говорите: «Я совершил посадку на станции, где отсутствуют работающие кассы и терминалы». Всё. Откуда именно вы сели — не их дело. Они не следователи, не полиция и не прокуратура. Они — продавцы билетов, которые пытаются впарить вам свой товар с наценкой. Вы не обязаны им отчитываться)</em>
-                </p>
-            </div>
-
-            <div class="section-block law">
-                <span class="section-block-title">📜 Юридическая база (Оружие против кассиров-вымогателей)</span>
-                <span class="law-ref">• <strong>Приказ Министерства транспорта РФ от 05.09.2022 № 352 «Об утверждении Правил перевозок пассажиров, багажа, грузобагажа железнодорожным транспортом»</strong> (зарегистрирован Минюстом РФ 27.10.2022, рег. № 70720; вступает в силу с 1 сентября 2023 года и действует до 1 сентября 2029 года), <strong>пункт 42</strong> (полный текст): <span class="quote">«В случае если на станции (остановочном пункте) отсутствуют или не работают железнодорожные билетные кассы, терминалы самообслуживания, физическое лицо может осуществить посадку в поезд пригородного сообщения без проездного документа (билета).
-В случае если станция (остановочный пункт) оборудована терминалом для печати предварительного проездного документа, физическое лицо осуществляет посадку в поезд пригородного сообщения без проездного документа (билета) при условии оформления талона предварительного проездного документа через данный терминал.
-В случаях, установленных настоящим пунктом, проездной документ (билет) за проезд и провоз ручной клади, превышающей установленную норму, оформляется непосредственно в поезде пригородного сообщения или в случае отсутствия в поезде пригородного сообщения работника перевозчика, на которого возложена обязанность осуществления контроля наличия и действительности проездных документов (билетов), на станции назначения без взимания платы за оказание услуги по его оформлению.»</span>
-                </span>
-                <span class="law-ref">• <strong>Тот же Приказ Минтранса РФ № 352, пункт 104</strong> (полный текст): <span class="quote">«Безбилетное физическое лицо, совершившее посадку в поезд пригородного сообщения в пункте отправления, где отсутствуют или не работают железнодорожные билетные кассы и (или) платежные терминалы, обязано оплатить стоимость проезда от пункта отправления до пункта назначения в вагоне или после окончания поездки в пункте назначения. При этом сбор за оказание услуги по оформлению проездного документа (билета) не взимается.»</span>
-                </span>
-                <span class="law-ref">• <strong>Приказ Министерства транспорта РФ от 19.12.2013 № 473 «Об утверждении Правил перевозок пассажиров, багажа, грузобагажа железнодорожным транспортом»</strong> (зарегистрирован Минюстом РФ 24.07.2014, рег. № 33244; действует бессрочно с 1 сентября 2014 года), <strong>пункт 59</strong> (полный текст, на который также можно ссылаться): <span class="quote">«Безбилетное физическое лицо, совершившее посадку в поезд пригородного сообщения в пункте отправления, в том числе на железнодорожной станции отправления, где отсутствуют или не работают железнодорожные билетные кассы и (или) платежные терминалы, обязано оплатить стоимость проезда от пункта отправления, в том числе железнодорожной станции отправления, до пункта назначения, в том числе до железнодорожной станции назначения, в вагоне или после окончания поездки в пункте назначения, в том числе железнодорожной станции назначения. При этом сбор за оказание услуги по оформлению проездного документа (билета) не взимается.»</span>
-                </span>
-                <span class="law-ref">• <strong>Приказ Минтранса РФ № 352, пункт 103</strong> (полный текст): <span class="quote">«После составления акта с безбилетного физического лица взыскивается штраф в размере, установленном статьей 110.1 Устава железнодорожного транспорта, и безбилетное физическое лицо удаляется из поезда работником перевозчика, в обязанности которого входит осуществление контроля наличия и действительности проездных документов (билетов), на ближайшей станции или остановочном пункте.
-Запрещается удаление из поезда несовершеннолетнего лица, не достигшего возраста шестнадцати лет, проезжающего без сопровождения взрослых, который не подтвердил оплату проезда, если его проезд подлежит оплате, или право на бесплатный или льготный проезд, без передачи перевозчиком такого несовершеннолетнего лица сотрудникам органов внутренних дел.»</span>
-                </span>
-                <span class="law-ref">• <strong>Конституция Российской Федерации, статья 51, часть 1</strong> (полный текст): <span class="quote">«Никто не обязан свидетельствовать против себя самого, своего супруга и близких родственников, круг которых определяется федеральным законом.»</span> (Вы не обязаны называть им точную станцию отправления, если прошли через турникеты как-то не так. Они не следователи).
-                </span>
-                <span class="law-ref">• <strong>Конституция Российской Федерации, статья 27, часть 1</strong> (полный текст): <span class="quote">«Каждый, кто законно находится на территории Российской Федерации, имеет право свободно передвигаться, выбирать место пребывания и жительства.»</span>
-                </span>
-            </div>
-
-            <div class="section-block risk">
-                <span class="section-block-title">⚠️ Что грозит «кассирам-контролерам» за вымогательство</span>
-                <p>
-                    <strong>КоАП РФ Статья 19.1 «Самоуправство»</strong> — требование оплаты сбора, который прямо запрещен Приказом Минтранса. Штраф для должностных лиц до 500 рублей + служебная проверка.
-                    <br><br>
-                    <strong>УК РФ Статья 286 «Превышение должностных полномочий»</strong> — если они начинают хватать вас за руки, блокировать проход в вагоне или угрожать высадкой на ходу (что само по себе опасно для жизни).
-                    <br><br>
-                    <strong>УК РФ Статья 127 «Незаконное лишение свободы»</strong> — если они или ЧОПовцы запирают вас в вагоне или не дают выйти на станции, требуя купить билет у них.
-                    <br><br>
-                    <strong>Закон РФ «О частной детективной и охранной деятельности»</strong> — сотрудники ЧОП не имеют права применять физическую силу, досматривать вас или требовать документы, если вы не совершили явного уголовно наказуемого деяния. Они вообще-то просто охранники, а не полиция.
-                    <br><br>
-                    <strong>Дисциплинарная ответственность</strong> — выговор, лишение премии, увольнение за незнание собственных правил и федеральных приказов.
-                </p>
-            </div>
-
-            <div class="section-block action">
-                <span class="section-block-title">🎯 Инструкция для пассажира (Как слить кассиров-вымогателей, шаг за шагом)</span>
-                <ol>
-                    <li><strong>Шаг 1: Включаем камеру и фиксируем факт посадки.</strong> Едва к вам в вагоне подходят эти «ревизоры» и требуют билет, вы включаете камеру и говорите: <em>«Ведется непрерывная видеозапись. Я совершил посадку на станции, где отсутствуют работающие билетные кассы и терминалы самообслуживания. Точную станцию отправления я называть не буду, это мое право по статье 51 Конституции РФ — никто не обязан свидетельствовать против себя самого. В соответствии с пунктом 42 Приказа Минтранса РФ № 352, а также пунктом 59 Приказа Минтранса РФ № 473, я имею законное право оформить проездной документ на станции назначения без взимания платы за оказание услуги по его оформлению»</em>.</li>
-                    <li><strong>Шаг 2: Пример диалога на станции назначения.</strong> Спокойно подходите к кассе на станции назначения (например, на Ярославском вокзале или на любой станции, где есть касса) и говорите: <em>«Здравствуйте. Я совершил посадку на станции, где отсутствуют работающие билетные кассы и терминалы самообслуживания. Прошу оформить мне проездной документ от этой станции до станции [название]. В соответствии с пунктом 104 Приказа Минтранса № 352 и пунктом 59 Приказа Минтранса № 473, сбор за оказание услуги по оформлению проездного документа с меня не взимается. Прошу оформить билет без сбора»</em>. И всё. Касса обязана оформить. А вот «кассиры-контролёры» в вагоне — не обязаны ничего, и вы не обязаны у них покупать.</li>
-                    <li><strong>Шаг 3: Реакция на их требования купить билет у них.</strong> Они начнут кричать: «Покупайте сейчас! Мы имеем право! Вы безбилетник!». Вы отвечаете с каменным лицом: <em>«Вы не имеете права принуждать меня к покупке билета именно у вас и именно сейчас. Пункт 104 Приказа № 352 и пункт 59 Приказа № 473 четко гласят, что я обязан оплатить стоимость проезда в вагоне ИЛИ после окончания поездки в пункте назначения. Я выбираю оплатить после окончания поездки на станции назначения. Более того, пункт 104 прямо указывает, что сбор за оказание услуги по оформлению проездного документа с меня не взимается. Так что ваши попытки содрать с меня 100, 200, 300, 500 рублей сверху являются прямым нарушением федерального приказа. Вы хотите нарушить федеральный приказ? Продолжайте, я всё записываю»</em>.</li>
-                    <li><strong>Шаг 4: Если они блокируют проход или хватают за руки.</strong> <em>«Уважаемые граждане, вы нарушаете мое право на свободное передвижение, гарантированное статьей 27 Конституции РФ. Ваши действия по блокированию моего выхода и применению физической силы квалифицируются как Незаконное лишение свободы по статье 127 Уголовного кодекса РФ, а также как Превышение должностных полномочий по статье 286 УК РФ. Я требую немедленно освободить проход. Если вы не отпустите меня, я буду вынужден применить право на самозащиту по статье 14 ГК РФ и вызвать наряд полиции для возбуждения уголовного дела против вас»</em>.</li>
-                    <li><strong>Шаг 5: Выход на станции.</strong> Спокойно выходите на своей станции. Если они бегут за вами и пытаются не выпустить через турникеты — смотрите Совет №5 (про удержание на станции). Главное — не покупайте у них билет, не давайте им свою карту и не давайте им составить на вас акт. Если они составляют акт — не подписывайте его, пишите «С актом не согласен, требую адвоката, ссылаюсь на п. 42 и 104 Приказа Минтранса № 352 и п. 59 Приказа Минтранса № 473».</li>
-                </ol>
-            </div>
-
-            <div class="section-block violation">
-                <span class="section-block-title">🔧 Действия при нарушении прав (Если они совсем обнаглели)</span>
-                <ol>
-                    <li><strong>Если они вызвали машиниста, чтобы тот не открыл двери:</strong> Машинист электропоезда — это не подчиненный кассиров. Машинист подчиняется только диспетчеру и графику движения. Если кассир попросит машиниста не открывать двери, машинист, скорее всего, пошлет кассира лесом, потому что за задержку поезда машинисту прилетит штраф от РЖД. Но если двери не открылись — используйте аварийный выход (рычаг или кнопку над дверью, или дергайте резиновые уплотнители, если это старая электричка). Это экстренная ситуация (ст. 127 УК РФ), поэтому порча механизма не повлечет за собой уголовной ответственности.</li>
-                    <li><strong>Если они вызвали транспортную полицию (Линейное управление МВД):</strong> Полицейский обязан составить протокол. Но полицейский также обязан знать законы. Когда полицейский потребует паспорт, скажите: <em>«Уважаемый сотрудник, я предъявляю вам паспорт из своих рук, не передавая его в ваши руки и не передавая третьим лицам (контролерам), на основании ст. 24 Конституции РФ и ФЗ № 152. Прошу вас разъяснить данным контролерам, что согласно пункту 42 и 104 Приказа Минтранса № 352, а также пункту 59 Приказа Минтранса № 473, я не являюсь безбилетным пассажиром, а реализую свое право на оплату проезда на станции назначения без взимания сборов. Их требования купить билет у них в вагоне являются самоуправством по ст. 19.1 КоАП РФ. Прошу пресечь их незаконные действия»</em>. В 90% случаев полицейский, поняв, что контролеры тупо нарушают федеральный приказ, просто развернется и уйдет, оставив контролеров с носом.</li>
-                    <li><strong>Жалоба постфактум:</strong> Если вас все-таки задержали, высадили или содрали деньги — пишите жалобу не только в Департамент транспорта, но и в Транспортную прокуратуру, а также в Центральную дирекцию скоростного сообщения (ЦФППК) или РЖД. Приложите видео, где вы цитируете пункты 42, 104 Приказа № 352 и пункт 59 Приказа № 473. Требуйте вернуть деньги и привлечь сотрудников к дисциплинарной ответственности за незнание нормативной базы.</li>
-                </ol>
-            </div>
-
-            <div class="tip-actions">
-                <button class="btn btn-primary" onclick="copyTip(this)">📋 Скопировать</button>
-                <button class="btn btn-secondary" onclick="shareTip()">📤 Поделиться</button>
-                <button class="btn btn-secondary btn-fav" onclick="toggleFav(this, 2)">⭐ В избранное</button>
-            </div>
+        <div class="disclaimer-text">
+            <strong>Уважаемый пассажир!</strong> Настоящий материал носит <span class="highlight">исключительно информационно-правовой характер</span> и предназначен для лиц, достигших возраста 12 лет (материал рекомендован к изучению подростками и взрослыми в целях повышения правовой грамотности — но если тебе меньше 12, а ты уже читаешь это и готов отстаивать свои права в суде, то респект тебе, чел, заходи, мы тебя не гоним). Настоящее пособие <strong>не является</strong> призывом к нарушению правил оплаты проезда, уклонению от внесения платы за услуги перевозки либо совершению иных противоправных деяний.<br><br>
+            Мы выступаем за легальные поездки и уважаем труд работников транспортного комплекса. Вместе с тем, в случае нарушения ваших прав со стороны контролёров, ревизоров или иных должностных лиц перевозчика, вы вправе руководствоваться нормами <strong>Конституции РФ, федеральных законов и иных нормативных правовых актов</strong>.<br><br>
+            <span class="highlight">Наличие либо отсутствие проездного документа (билета) не влечёт утраты пассажиром конституционных прав и свобод.</span> Контролёр (ревизор) является должностным лицом перевозчика, чьи полномочия строго ограничены действующим законодательством и локальными нормативными актами. Выход за пределы предоставленных полномочий влечёт за собой дисциплинарную, административную, гражданско-правовую и (или) уголовную ответственность в соответствии с законодательством Российской Федерации.
+        </div>
+        <div class="disclaimer-footer">
+            💡 Платите за проезд, но всегда знайте свои права. А если не платите — тем более знайте, потому что контролёры только и ждут, когда вы растеряетесь)
         </div>
     </div>
 </div>
 
-
-<!-- ============================================ -->
-<!-- НОВЫЙ СОВЕТ #4: Про доверенность -->
-<!-- ============================================ -->
-<div class="tip-card fade-in" data-category="start" data-id="4">
-    <div class="tip-header" onclick="toggleTip(this)">
-        <div class="tip-header-left">
-            <span class="tip-number">#4</span>
-            <span class="tip-title">Доверенность от юридического лица: Без неё контролёр — просто физическое лицо в форме</span>
-        </div>
-        <span class="tip-toggle-icon">▼</span>
-    </div>
-    <div class="tip-content-wrapper">
-        <div class="tip-content">
-
-            <div class="section-block essence">
-                <span class="section-block-title">📌 Суть совета (Максимально развернуто)</span>
-                <p>
-                    Контролёры (будь то ГУП «Мосгортранс», ГКУ «Организатор перевозок», АО «Центральная пригородная пассажирская компания» (ЦППК) или любая другая пригородная пассажирская компания) — это не физические лица, действующие от себя. Это представители <strong>юридических лиц</strong>. А по Гражданскому кодексу РФ, представитель юридического лица может действовать от его имени ТОЛЬКО при наличии доверенности, выданной генеральным директором, ИЛИ если он прямо указан в Едином государственном реестре юридических лиц (ЕГРЮЛ) как лицо, имеющее право действовать без доверенности от имени юридического лица.
-                    <br><br>
-                    А теперь внимание, вопрос: кто обычно имеет право действовать без доверенности от имени юридического лица? Правильно — только генеральный директор (или единоличный исполнительный орган). А контролёр — это не генеральный директор ГУП «Мосгортранс» и не генеральный директор АО «ЦППК». Это наёмный работник, который должен иметь при себе доверенность от гендиректора на право осуществления контроля оплаты проезда и составления актов о безбилетном проезде.
-                    <br><br>
-                    <strong>У 99,9% контролёров такой доверенности при себе НЕТ.</strong> Они даже не знают о её существовании. А это значит, что с юридической точки зрения, когда к вам подходит контролёр без доверенности — перед вами просто физическое лицо в форме, которое не имеет права проверять ваш билет, составлять на вас акты, требовать паспорт или делать что-либо ещё от имени перевозчика. Вы ему НИЧЕГО не обязаны, потому что он не является надлежащим представителем юридического лица.
-                    <br><br>
-                    <em>(Это, кстати, универсальный способ отшивать контролёров не только в наземном транспорте Москвы, но и в электричках, и в метро. Неважно, какой перевозчик — ГУП, ГКУ, АО, ООО. Все они юридические лица, и все их представители обязаны иметь доверенность. А её у них нет. И не будет, потому что текучка кадров бешеная, и оформлять доверенности на каждого нового контролёра — это бюрократический ад для их офиса. Так что можете смело тыкать их в эту статью ГК РФ и спокойно уходить)</em>
-                </p>
-            </div>
-
-            <div class="section-block law">
-                <span class="section-block-title">📜 Юридическая база (Законы, которые они ненавидят)</span>
-                <span class="law-ref">• <strong>Гражданский кодекс Российской Федерации, Статья 185, Часть 1</strong> (полный текст): <span class="quote">«Доверенностью признается письменное уполномочие, выдаваемое представляемым представителю для представительства перед третьими лицами. Письменное уполномочие на совершение сделки представителем может быть представлено представляемым непосредственно третьим лицам.»</span> (Контролёр — представитель перевозчика. Без доверенности он не представитель).
-                </span>
-                <span class="law-ref">• <strong>Гражданский кодекс Российской Федерации, Статья 53, Пункт 1</strong> (полный текст): <span class="quote">«В случаях, предусмотренных законом, юридическое лицо может выступать от своего имени через своих участников, органы или иных лиц, действующих от его имени на основании доверенности или иного акта, предусмотренного законом.»</span> (Иных лиц — только на основании доверенности. Контролёр — иное лицо, не орган юрлица).
-                </span>
-                <span class="law-ref">• <strong>Гражданский кодекс Российской Федерации, Статья 53, Пункт 3</strong> (полный текст): <span class="quote">«Лицо, которое в силу настоящего Кодекса, другого закона или учредительного документа юридического лица уполномочено выступать от имени юридического лица, действует добросовестно и разумно в интересах данного юридического лица.»</span> (А в ЕГРЮЛ указаны только те, кто уполномочен действовать БЕЗ доверенности — это гендиректор. Контролёра там нет).
-                </span>
-                <span class="law-ref">• <strong>Федеральный закон от 08.08.2001 № 129-ФЗ «О государственной регистрации юридических лиц и индивидуальных предпринимателей»</strong> (с изменениями), <strong>статья 5</strong> (о ЕГРЮЛ): <span class="quote">«В Едином государственном реестре юридических лиц содержатся... сведения о лице, которое имеет право без доверенности действовать от имени юридического лица...»</span> (Проверьте выписку из ЕГРЮЛ на ГУП «Мосгортранс» или АО «ЦППК» — там указан только гендиректор. Контролёров там нет).
-                </span>
-                <span class="law-ref">• <strong>Конституция Российской Федерации, Статья 15, Часть 3</strong> (полный текст): <span class="quote">«Любые нормативные правовые акты, затрагивающие права, свободы и обязанности человека и гражданина, не могут применяться, если они не опубликованы официально для всеобщего сведения.»</span> (Если контролёр ссылается на свою «должностную инструкцию», которой нет в свободном доступе — она не применяется).
-                </span>
-            </div>
-
-            <div class="section-block risk">
-                <span class="section-block-title">⚠️ Что грозит контролёру за отсутствие доверенности</span>
-                <p>
-                    <strong>КоАП РФ Статья 19.1 «Самоуправство»</strong> — самовольное осуществление предполагаемого права (проверка билетов без доверенности от юрлица). Штраф до 300 рублей для граждан, до 500 рублей для должностных лиц.
-                    <br><br>
-                    <strong>УК РФ Статья 286 «Превышение должностных полномочий»</strong> — если контролёр без доверенности начинает применять силу, составлять акты, требовать паспорт.
-                    <br><br>
-                    <strong>Дисциплинарная ответственность (ст. 192 ТК РФ)</strong> — выговор, лишение премии, увольнение за работу без надлежащих документов.
-                    <br><br>
-                    <strong>Недействительность всех действий</strong> — все акты, составленные контролёром без доверенности, юридически ничтожны. Штраф, выписанный таким контролёром, можно обжаловать и отменить в суде.
-                </p>
-            </div>
-
-            <div class="section-block action">
-                <span class="section-block-title">🎯 Инструкция для пассажира (Как слить контролёра через доверенность)</span>
-                <ol>
-                    <li><strong>Шаг 1: Включаем камеру.</strong> Как всегда, первым делом — видеозапись. Громко проговариваем: <em>«Ведется непрерывная видеозапись. Я требую предъявить доверенность от генерального директора [название организации — ГУП Мосгортранс / ГКУ ОП / АО ЦППК] на право осуществления контроля оплаты проезда и составления актов о безбилетном проезде»</em>.</li>
-                    <li><strong>Шаг 2: Требование доверенности.</strong> Спокойно, с легкой ухмылкой, говорим: <em>«Уважаемый, вы действуете от имени юридического лица — [название организации]. Согласно статье 185 Гражданского кодекса РФ, представитель юридического лица действует на основании доверенности. Прошу предъявить доверенность от генерального директора на право проверки билетов. Если доверенности нет — вы не являетесь надлежащим представителем перевозчика и не имеете права проверять мой билет, составлять на меня акты или требовать мои персональные данные»</em>.</li>
-                    <li><strong>Шаг 3: Если они ссылаются на «должностную инструкцию» или «служебное удостоверение».</strong> <em>«Служебное удостоверение подтверждает, что вы работник организации. Но оно не подтверждает ваших полномочий действовать от имени юридического лица в отношениях с третьими лицами — то есть со мной. Для этого нужна доверенность по статье 185 ГК РФ. А должностная инструкция — это внутренний документ, который меня не касается, тем более что он не опубликован официально для всеобщего сведения, что является нарушением статьи 15 части 3 Конституции РФ»</em>.</li>
-                    <li><strong>Шаг 4: Если они начинают давить.</strong> <em>«Вы хотите, чтобы я прямо сейчас позвонил в ваше юридическое лицо и попросил прислать мне копию доверенности, выданной вам лично? Или вы хотите, чтобы я пошёл в ЕГРЮЛ — Единый государственный реестр юридических лиц — и проверил, указаны ли вы там как лицо, имеющее право действовать без доверенности от имени юридического лица? Спойлер: там указан только генеральный директор. Вас там нет. Так что ваши требования юридически ничтожны. До свидания»</em>.</li>
-                    <li><strong>Шаг 5: Спокойно уходим.</strong> Не показываем билет, не даём паспорт, не подписываем акты. Просто выходим на ближайшей остановке. На улице они нам вообще ничего не должны (см. совет №1).</li>
-                </ol>
-            </div>
-
-            <div class="section-block violation">
-                <span class="section-block-title">🔧 Действия при нарушении прав</span>
-                <ol>
-                    <li><strong>Если контролёр хватает вас за руки или не выпускает:</strong> Громко: <em>«Ваши действия квалифицируются как Превышение должностных полномочий по статье 286 УК РФ и Незаконное лишение свободы по статье 127 УК РФ. Применяю право на самозащиту по статье 14 ГК РФ»</em>. Освобождаемся и уходим.</li>
-                    <li><strong>Если они вызвали полицию:</strong> Полицейскому: <em>«Данный гражданин действует от имени юридического лица без доверенности, что является нарушением статьи 185 ГК РФ. Все его требования юридически ничтожны. Прошу пресечь его самоуправство по статье 19.1 КоАП РФ»</em>.</li>
-                    <li><strong>Жалоба:</strong> Пишем жалобу в Дептранс, Прокуратуру и непосредственно в юридическое лицо (ГУП «Мосгортранс», ГКУ «ОП», АО «ЦППК»). Требуйте пояснить, на основании какого документа их сотрудники осуществляют контроль оплаты проезда от имени юридического лица. Пусть покажут доверенность. Спойлер: не покажут.</li>
-                </ol>
-            </div>
-
-            <div class="tip-actions">
-                <button class="btn btn-primary" onclick="copyTip(this)">📋 Скопировать</button>
-                <button class="btn btn-secondary" onclick="shareTip()">📤 Поделиться</button>
-                <button class="btn btn-secondary btn-fav" onclick="toggleFav(this, 4)">⭐ В избранное</button>
-            </div>
-        </div>
+<div class="search-container">
+    <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск по советам, статьям УК/КоАП, ситуациям...">
+        <button class="search-btn" onclick="performSearch()">Найти</button>
     </div>
 </div>
 
-
-<!-- ============================================ -->
-<!-- НОВЫЙ СОВЕТ #5: Про удержание на станции -->
-<!-- ============================================ -->
-<div class="tip-card fade-in" data-category="trains" data-id="5">
-    <div class="tip-header" onclick="toggleTip(this)">
-        <div class="tip-header-left">
-            <span class="tip-number">#5</span>
-            <span class="tip-title">Удержание на станции и турникеты: Никто не имеет права не выпустить вас</span>
-        </div>
-        <span class="tip-toggle-icon">▼</span>
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-number">100+</div>
+        <div class="stat-label">Советов</div>
     </div>
-    <div class="tip-content-wrapper">
-        <div class="tip-content">
-
-            <div class="section-block essence">
-                <span class="section-block-title">📌 Суть совета (Максимально развернуто)</span>
-                <p>
-                    Отдельная песня — это ситуация, когда «кассиры-контролёры» или охрана на станции пытаются не выпустить вас через турникеты, требуя оплатить штраф или купить билет у них. Они блокируют проход, хватают за руки, кричат, что вы «обязаны оплатить» и «не имеете права уйти». Всё это — полный, абсолютный, кристально-чистый пиздеж.
-                    <br><br>
-                    <strong>НИКТО не имеет права удерживать вас на станции.</strong> Турникеты — это не тюремные ворота, не пограничный контроль и не режимный объект. Это просто технические средства для учёта пассажиров. Вы имеете полное конституционное право свободно передвигаться по территории Российской Федерации, и станция железной дороги — часть этой территории.
-                    <br><br>
-                    Если турникеты не открываются — перепрыгивайте. Подлезайте снизу. Отодвигайте створки руками. В экстренной ситуации (а незаконное удержание — это именно экстренная ситуация) ломайте их. Да, потом могут попробовать взыскать стоимость повреждения, но это гражданско-правовые отношения, а не уголовщина. А вот их действия по удержанию вас — это уже статья 127 УК РФ, и это серьёзно.
-                    <br><br>
-                    <em>(Кстати, если вы едете компанией — это идеальный момент для коллективного действия. Встаньте «паровозиком», впереди самый крупный и наглый, и проходите через турникеты все вместе. Охрана и контролёры не смогут физически удержать группу людей. А если попытаются — это уже массовое незаконное лишение свободы, и видео с этим разлетится по интернету так, что их начальство будет краснеть ещё неделю)</em>
-                </p>
-            </div>
-
-            <div class="section-block law">
-                <span class="section-block-title">📜 Юридическая база (Законы против удержания)</span>
-                <span class="law-ref">• <strong>Конституция Российской Федерации, Статья 27, Часть 1</strong> (полный текст): <span class="quote">«Каждый, кто законно находится на территории Российской Федерации, имеет право свободно передвигаться, выбирать место пребывания и жительства.»</span> (Станция — часть территории РФ. Вы имеете право свободно её покинуть).
-                </span>
-                <span class="law-ref">• <strong>Уголовный кодекс Российской Федерации, Статья 127 «Незаконное лишение свободы»</strong> (полный текст части 1): <span class="quote">«Незаконное лишение человека свободы, не связанное с его похищением, — наказывается ограничением свободы на срок до двух лет, либо принудительными работами на срок до двух лет, либо арестом на срок от трех до шести месяцев, либо лишением свободы на срок до двух лет.»</span>
-                </span>
-                <span class="law-ref">• <strong>Уголовный кодекс Российской Федерации, Статья 286, Часть 1 «Превышение должностных полномочий»</strong> (полный текст): <span class="quote">«Совершение должностным лицом действий, явно выходящих за пределы его полномочий и повлекших существенное нарушение прав и законных интересов граждан или организаций либо охраняемых законом интересов общества или государства, — наказывается штрафом в размере до восьмидесяти тысяч рублей или в размере заработной платы или иного дохода осужденного за период до трех месяцев, либо обязательными работами на срок до четырехсот восьмидесяти часов, либо исправительными работами на срок от шести месяцев до двух лет, либо принудительными работами на срок до двух лет, либо арестом на срок от четырех до шести месяцев, либо лишением свободы на срок до четырех лет.»</span>
-                </span>
-                <span class="law-ref">• <strong>Гражданский кодекс Российской Федерации, Статья 14 «Самозащита гражданских прав»</strong> (полный текст): <span class="quote">«1. Гражданские права защищаются в соответствии с порядком, установленным нормами материального и процессуального права.
-2. Лицо, право которого нарушено, может защищать свое право самостоятельно или с помощью других лиц.
-3. Способы самозащиты должны быть соразмерны нарушению.»</span> (Перепрыгнуть турникет, отодвинуть створки, сломать их в экстренной ситуации — это самозащита от незаконного лишения свободы).
-                </span>
-                <span class="law-ref">• <strong>Уголовный кодекс Российской Федерации, Статья 37 «Необходимая оборона»</strong> (выдержка из части 1): <span class="quote">«Не является преступлением причинение вреда посягающему лицу в состоянии необходимой обороны, то есть при защите личности и прав обороняющегося или других лиц, охраняемых законом интересов общества или государства от общественно опасного посягательства...»</span> (Если вас хватают, чтобы не выпустить — это посягательство. Вы имеете право защищаться).
-                </span>
-            </div>
-
-            <div class="section-block risk">
-                <span class="section-block-title">⚠️ Что грозит тем, кто вас удерживает</span>
-                <p>
-                    <strong>Статья 127 УК РФ</strong> — Незаконное лишение свободы. До 2 лет лишения свободы для каждого, кто вас удерживает (контролёр, охранник, ЧОПовец).
-                    <br><br>
-                    <strong>Статья 286 УК РФ</strong> — Превышение должностных полномочий. До 4 лет лишения свободы.
-                    <br><br>
-                    <strong>Статья 33 УК РФ (Соучастие)</strong> — если водитель или другой сотрудник помогает удерживать, он становится соучастником.
-                    <br><br>
-                    <strong>Гражданско-правовая ответственность (ст. 151, 1099-1101 ГК РФ)</strong> — компенсация морального вреда. Вы можете подать в суд и получить деньги за то, что вас незаконно удерживали.
-                    <br><br>
-                    <strong>Увольнение и дискредитация</strong> — видео с массовым удержанием пассажиров на станции разлетится по интернету, и начальство будет вынуждено кого-то уволить, чтобы спасти лицо организации.
-                </p>
-            </div>
-
-            <div class="section-block action">
-                <span class="section-block-title">🎯 Инструкция для пассажира (Как пройти через турникеты, когда вас не выпускают)</span>
-                <ol>
-                    <li><strong>Шаг 1: Включаем камеру и озвучиваем.</strong> Громко, на весь вокзал: <em>«Ведется видеозапись. Я требую свободно покинуть станцию в соответствии со статьёй 27 Конституции РФ. Ваши действия по блокированию моего выхода квалифицируются как Незаконное лишение свободы по статье 127 Уголовного кодекса РФ. Я предупреждаю всех присутствующих, что вы совершаете уголовное преступление»</em>.</li>
-                    <li><strong>Шаг 2: Попытка пройти мирно.</strong> Спокойно подходим к турникету и пытаемся пройти. Если охрана или контролёры хватают — <em>«Прекратите применять ко мне физическую силу. Применяю право на самозащиту по статье 14 ГК РФ и необходимую оборону по статье 37 УК РФ»</em>. Освобождаемся резким движением и идём дальше.</li>
-                    <li><strong>Шаг 3: Если турникет не открывается — перепрыгиваем.</strong> Да, просто перепрыгиваем. Или подлезает снизу. Или отодвигаем створки руками (они не такие тяжёлые, как кажется). Если створки заблокированы — ломаем. Это экстренная ситуация (ст. 127 УК РФ), и статья 14 ГК РФ (самозащита) полностью покрывает ваши действия. Да, потом могут попытаться взыскать стоимость турникета, но это гражданский суд, а не уголовка. А вот их действия — это уголовка.</li>
-                    <li><strong>Шаг 4: Если едете компанией — идите «паровозиком».</strong> Впереди самый крупный, за ним — все остальные. Проходите через турникеты все вместе, помогая друг другу. Охрана физически не сможет удержать группу людей. А если попытается — это массовое незаконное лишение свободы, и видео с этим будет хитом интернета.</li>
-                    <li><strong>Шаг 5: Служебная калитка.</strong> Рядом с турникетами почти всегда есть служебная калитка для персонала. Часто она не заперта. Подходим, открываем, проходим. Если охрана бежит за вами — снова озвучиваем: <em>«Я реализую своё конституционное право на свободное передвижение. Ваши попытки воспрепятствовать — статья 127 УК РФ»</em>.</li>
-                </ol>
-            </div>
-
-            <div class="section-block violation">
-                <span class="section-block-title">🔧 Действия при нарушении прав (Если вас всё-таки задержали)</span>
-                <ol>
-                    <li><strong>Если вас схватили и не отпускают:</strong> Громко кричим: <em>«Помогите! Меня незаконно удерживают! Это статья 127 УК РФ! Вызывайте полицию!»</em>. Привлекаем внимание всех пассажиров. В 90% случаев найдётся хоть один адекватный человек, который встанет на вашу сторону.</li>
-                    <li><strong>Если вызвали полицию:</strong> Полицейскому: <em>«Уважаемый сотрудник, эти граждане незаконно удерживают меня на станции, что является преступлением по статье 127 УК РФ. Я не нарушал никаких законов, я реализую своё конституционное право на свободное передвижение. Прошу пресечь их незаконные действия и привлечь к уголовной ответственности»</em>.</li>
-                    <li><strong>Если составили протокол или задержали:</strong> Не подписываем ничего. Пишем: «С нарушением не согласен, требую адвоката, мои права по ст. 25.1 и 25.5 КоАП РФ не разъяснены». Требуйте, чтобы в протоколе указали, что вы не безбилетник, а лицо, реализующее право на свободное передвижение.</li>
-                    <li><strong>После освобождения:</strong> Сразу пишем жалобу в Транспортную прокуратуру, Следственный комитет РФ (для возбуждения уголовного дела по ст. 127 УК РФ) и непосредственно в организацию-перевозчика. Прикладываем видео. Требуйте возбудить уголовное дело и привлечь всех участвовавших к ответственности.</li>
-                    <li><strong>Гражданский иск:</strong> Подаём в суд иск о компенсации морального вреда (ст. 151, 1099-1101 ГК РФ). Суммы могут быть существенными, особенно если есть видео и свидетели.</li>
-                </ol>
-            </div>
-
-            <div class="tip-actions">
-                <button class="btn btn-primary" onclick="copyTip(this)">📋 Скопировать</button>
-                <button class="btn btn-secondary" onclick="shareTip()">📤 Поделиться</button>
-                <button class="btn btn-secondary btn-fav" onclick="toggleFav(this, 5)">⭐ В избранное</button>
-            </div>
-        </div>
+    <div class="stat-item">
+        <div class="stat-number">30+</div>
+        <div class="stat-label">ФЗ и НПА с цитатами</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Юридически выверено</div>
     </div>
 </div>
 
-
-<!-- ============================================ -->
-<!-- ОБНОВЛЁННЫЙ БЛОК NPA (с приказами 473 и 352) -->
-<!-- ============================================ -->
 <div class="npa-toggle-container">
-    <button class="npa-toggle-btn" onclick="toggleNPA()">📜 Показать/Скрыть цитаты из 25+ ФЗ и НПА</button>
+    <button class="npa-toggle-btn" onclick="toggleNPA()">📜 Показать/Скрыть цитаты из 30+ ФЗ и НПА</button>
     <div class="npa-content" id="npaContent">
         <div class="npa-grid">
             <div class="npa-item">
@@ -283,10 +912,6 @@
                 <div class="npa-item-title">Конституция РФ, ст. 51 (полная)</div>
                 <div class="npa-item-text">«1. Никто не обязан свидетельствовать против себя самого, своего супруга и близких родственников, круг которых определяется федеральным законом.
 2. Федеральным законом могут устанавливаться иные случаи освобождения от обязанности давать свидетельские показания.»</div>
-            </div>
-            <div class="npa-item">
-                <div class="npa-item-title">Конституция РФ, ст. 55 ч. 3</div>
-                <div class="npa-item-text">«Права и свободы человека и гражданина могут быть ограничены федеральным законом только в той мере, в какой это необходимо в целях защиты основ конституционного строя, нравственности, здоровья, прав и законных интересов других лиц, обеспечения обороны страны и безопасности государства.»</div>
             </div>
             <div class="npa-item">
                 <div class="npa-item-title">УК РФ, ст. 127 (полная)</div>
@@ -308,21 +933,6 @@
                 <div class="npa-item-text">«Самоуправство, то есть самовольное, вопреки установленному федеральным законом или иным нормативным правовым актом порядку осуществление своего действительного или предполагаемого права, не причинившее существенного вреда гражданину или юридическому лицу, - влечет предупреждение или наложение административного штрафа на граждан в размере от ста до трехсот рублей; на должностных лиц - от трехсот до пятисот рублей.»</div>
             </div>
             <div class="npa-item">
-                <div class="npa-item-title">ГК РФ, ст. 14 (самозащита, полная)</div>
-                <div class="npa-item-text">«1. Гражданские права защищаются в соответствии с порядком, установленным нормами материального и процессуального права.
-2. Лицо, право которого нарушено, может защищать свое право самостоятельно или с помощью других лиц.
-3. Способы самозащиты должны быть соразмерны нарушению.»</div>
-            </div>
-            <div class="npa-item">
-                <div class="npa-item-title">ГК РФ, ст. 53 (представительство, выдержка)</div>
-                <div class="npa-item-text">«1. В случаях, предусмотренных законом, юридическое лицо может выступать от своего имени через своих участников, органы или иных лиц, действующих от его имени на основании доверенности или иного акта, предусмотренного законом.
-3. Лицо, которое в силу настоящего Кодекса, другого закона или учредительного документа юридического лица уполномочено выступать от имени юридического лица, действует добросовестно и разумно в интересах данного юридического лица.»</div>
-            </div>
-            <div class="npa-item">
-                <div class="npa-item-title">ГК РФ, ст. 185 ч. 1 (доверенность)</div>
-                <div class="npa-item-text">«Доверенностью признается письменное уполномочие, выдаваемое представляемым представителю для представительства перед третьими лицами. Письменное уполномочие на совершение сделки представителем может быть представлено представляемым непосредственно третьим лицам.»</div>
-            </div>
-            <div class="npa-item">
                 <div class="npa-item-title">Приказ Минтранса РФ № 352, п. 42 (полный)</div>
                 <div class="npa-item-text">«В случае если на станции (остановочном пункте) отсутствуют или не работают железнодорожные билетные кассы, терминалы самообслуживания, физическое лицо может осуществить посадку в поезд пригородного сообщения без проездного документа (билета).
 В случае если станция (остановочный пункт) оборудована терминалом для печати предварительного проездного документа, физическое лицо осуществляет посадку в поезд пригородного сообщения без проездного документа (билета) при условии оформления талона предварительного проездного документа через данный терминал.
@@ -339,11 +949,349 @@
                 <div class="npa-item-text">«Безбилетное физическое лицо, совершившее посадку в поезд пригородного сообщения в пункте отправления, в том числе на железнодорожной станции отправления, где отсутствуют или не работают железнодорожные билетные кассы и (или) платежные терминалы, обязано оплатить стоимость проезда от пункта отправления, в том числе железнодорожной станции отправления, до пункта назначения, в том числе до железнодорожной станции назначения, в вагоне или после окончания поездки в пункте назначения, в том числе железнодорожной станции назначения. При этом сбор за оказание услуги по оформлению проездного документа (билета) не взимается.»
 (Действует бессрочно с 01.09.2014)</div>
             </div>
-            <div class="npa-item">
-                <div class="npa-item-title">Приказ Минтранса РФ № 352, п. 103 (полный)</div>
-                <div class="npa-item-text">«После составления акта с безбилетного физического лица взыскивается штраф в размере, установленном статьей 110.1 Устава железнодорожного транспорта, и безбилетное физическое лицо удаляется из поезда работником перевозчика, в обязанности которого входит осуществление контроля наличия и действительности проездных документов (билетов), на ближайшей станции или остановочном пункте.
-Запрещается удаление из поезда несовершеннолетнего лица, не достигшего возраста шестнадцати лет, проезжающего без сопровождения взрослых, который не подтвердил оплату проезда, если его проезд подлежит оплате, или право на бесплатный или льготный проезд, без передачи перевозчиком такого несовершеннолетнего лица сотрудникам органов внутренних дел.»</div>
-            </div>
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="filterCategory('all', this)">🏠 Все советы</div>
+        <div class="nav-tab" onclick="filterCategory('start', this)">📋 Начало контакта</div>
+        <div class="nav-tab" onclick="filterCategory('trains', this)">🚆 Электрички и МЦД</div>
+        <div class="nav-tab" onclick="filterCategory('metro', this)">🚇 Метро</div>
+        <div class="nav-tab" onclick="filterCategory('minors', this)">🚗💨 Несовершеннолетние</div>
+        <div class="nav-tab" onclick="filterCategory('fav', this)">⭐ Избранное</div>
+    </div>
+
+    <div class="collapse-all-container">
+        <button class="collapse-all-btn" id="collapseAllBtn" onclick="toggleAllTips()">
+            <span class="btn-icon">▼</span>
+            <span class="btn-text" id="collapseAllText">Развернуть все советы</span>
+        </button>
+    </div>
+
+    <h2 class="section-title">Раздел I: Фундаментальные Принципы и Инициация Контакта</h2>
+
+    <div id="tipsContainer">
+
+        <!-- СОВЕТ 1 -->
+        <div class="tip-card fade-in" data-category="start" data-id="1">
+            <div class="tip-header" onclick="toggleTip(this)">
+                <div class="tip-header-left">
+                    <span class="tip-number">#1</span>
+                    <span class="tip-title">Абсолютный Фундамент: Требование Документов Контролёра</span>
+                </div>
+                <span class="tip-toggle-icon">▼</span>
+            </div>
+            <div class="tip-content-wrapper">
+                <div class="tip-content">
+                    <div class="section-block essence">
+                        <span class="section-block-title">📌 Суть совета</span>
+                        <p>
+                            Контролёры обожают играть в полицейских, забывая, что они всего лишь наёмные работники транспортного предприятия, чьи полномочия строго ограничены бумажками, которые они сами, скорее всего, ни разу не читали. Едва к вам подходит этот «ревизор» в форме (или в том, что он считает формой), и начинает с порога требовать билет, паспорт или социальную карту — он совершает колоссальную ошибку. Он забыл, что в правовом государстве любое взаимодействие с гражданином начинается с идентификации должностного лица.
+                            <br><br>
+                            Пока этот гражданин в непонятной одежде не предъявит вам своё служебное удостоверение в развёрнутом виде, чтобы вы могли спокойно переписать его ФИО, должность и номер значка — для вас он просто прохожий в карнавале самодеятельности. Вы не обязаны ни показывать ему билет, ни тем более отдавать в его потные лапы свою банковскую или социальную карту. Вы не обязаны объяснять ему, кто вы такой. Более того, если он начнёт хамить, требовать убрать телефон или ссылаться на свои «внутренние инструкции», о которых никто из пассажиров не знает, вы имеете полное право послать его лесом, опираясь на Конституцию РФ.
+                            <br><br>
+                            Ваша задача — не оправдываться, а перевести стрелки на него. Пусть он потеет, пусть он судорожно ищет удостоверение, пусть он понимает, что связался не с тупым стадом, а с ходячим сводом законов. Включайте камеру, делайте лицо, полное сарказма, и начинайте душить его юридической грамотностью.
+                        </p>
+                    </div>
+                    <div class="section-block law">
+                        <span class="section-block-title">📜 Юридическая база (законы против контролёра)</span>
+                        <span class="law-ref">• <strong>Конституция Российской Федерации, Статья 24, Часть 1</strong> <span class="quote">«Сбор, хранение, использование и распространение информации о частной жизни допускаются только с согласия лица.»</span> (Пассажиру не обязательно светить своими данными неизвестно кому).
+                        </span>
+                        <span class="law-ref">• <strong>Конституция Российской Федерации, Статья 29, Часть 4</strong> <span class="quote">«Каждый имеет право свободно искать, получать, передавать, производить и распространять информацию любым законным способом. Перечень сведений, составляющих государственную тайну, определяется федеральным законом.»</span> (Вы имеете полное право знать, с кем разговариваете, и снимать это на видео).
+                        </span>
+                        <span class="law-ref">• <strong>Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных», Статья 9, Часть 1</strong> <span class="quote">«Субъект персональных данных принимает решение о предоставлении его персональных данных свободно, своей волей и в своем интересе. Согласие на обработку персональных данных должно быть конкретным, информированным и сознательным.»</span> (Вы не обязаны давать им свой паспорт или карту, пока они не докажут, что они должностные лица, имеющие право обрабатывать ваши данные).
+                        </span>
+                    </div>
+                    <div class="section-block risk">
+                        <span class="section-block-title">⚠️ Что грозит контролёру за отказ предъявить документы и хамство</span>
+                        <p>
+                            <strong>Кодекс Российской Федерации об административных правонарушениях, Статья 19.1 «Самоуправство»</strong> — самовольное, вопреки установленному законом порядку осуществление своего действительного или предполагаемого права. Наказание: штраф до 300 рублей для граждан и до 500 рублей для должностных лиц. (Казалось бы, мелочь, но сам факт составления протокола по этой статье для них — это служебная проверка и лишение премии).
+                            <br><br>
+                            <strong>Уголовный кодекс Российской Федерации, Статья 286, Часть 1 «Превышение должностных полномочий»</strong> — совершение должностным лицом действий, явно выходящих за пределы его полномочий и повлекших существенное нарушение прав и законных интересов граждан. Наказывается штрафом до 80 000 рублей, принудительными работами до 4 лет или лишением свободы на срок до 4 лет. (Если он начнёт хватать вас за руки, требовать паспорт силой или не давать выйти).
+                            <br><br>
+                            <strong>Трудовой кодекс Российской Федерации, Статья 192</strong> — дисциплинарные взыскания: замечание, выговор, увольнение. За хамство, нарушение формы и отказ предъявить удостоверение его могут уволить одним днём.
+                        </p>
+                    </div>
+                    <div class="section-block action">
+                        <span class="section-block-title">🎯 Инструкция для пассажира (Что говорить и делать, шаг за шагом)</span>
+                        <ol>
+                            <li><strong>Шаг 1: Включаем камеру.</strong> Едва вы заметили, что к вам направляются контролёры, или они уже стоят перед вами, молча достаёте телефон и включаете видеозапись. Не направляйте камеру прямо в глаза, держите её на уровне груди, чтобы в кадр попадали их лица, значки и ваши руки. Громко и чётко, чтобы записалось на аудио, произносите: <em>«Ведётся непрерывная видеозапись моего взаимодействия с должностными лицами в общественном транспорте. Камера работает, звук пишется»</em>.</li>
+                            <li><strong>Шаг 2: Требование документов.</strong> Спокойно, с лёгкой ухмылкой, глядя прямо в глаза (или на их видеорегистратор), произносите следующую тираду: <em>«Уважаемый гражданин в форме, прежде чем вы начнёте предъявлять мне свои требования и нарушать мой покой, я, на основании статьи 29 части 4 Конституции РФ и Федерального закона № 152 "О персональных данных", требую предъявить мне ваше служебное удостоверение в развёрнутом виде. Я должен чётко видеть вашу фотографию, ФИО, должность и номер вашего нагрудного знака, чтобы переписать эти данные. До момента, пока вы не идентифицируете себя как должностное лицо перевозчика, вы для меня просто прохожий в непонятной одежде, и я не обязан ни показывать вам билет, ни тем более передавать вам свои персональные данные и банковские карты»</em>.</li>
+                            <li><strong>Шаг 3: Реакция на их возмущение.</strong> Они начнут возмущаться: «Мы уже показали!», «У нас нет времени!», «Уберите камеру!». Вы не повышаете голос, вы говорите как робот-юрист: <em>«Вы мне ничего не показали, вы просто помахали корочкой перед лицом. Я не ослеп, я не успел прочитать данные. Пока вы не предоставите мне возможность спокойно переписать ваши реквизиты, мои обязательства по предъявлению проездных документов приостановлены. Что касается камеры, то согласно статье 29 части 4 Конституции РФ и статье 152.1 Гражданского кодекса РФ, съёмка должностных лиц при исполнении в общественном месте не требует их согласия, так как осуществляется в общественных интересах — для фиксации возможного нарушения моих прав. Камеру я не уберу»</em>.</li>
+                            <li><strong>Шаг 4: Если они начинают давить или хамить.</strong> <em>«Я вижу, что вы не знакомы с должностной инструкцией, которая обязывает вас предъявлять удостоверение по первому требованию пассажира. Ваше хамство и отказ предъявить документы я расцениваю как превышение должностных полномочий и самоуправство по статье 19.1 КоАП РФ. Продолжайте нарушать закон, мне как раз нужны доказательства для направления жалобы в Департамент транспорта, Прокуратуру и лично вашему Генеральному директору. Я уже переписал номер вашего маршрута и бортовой номер транспортного средства»</em>.</li>
+                        </ol>
+                    </div>
+                    <div class="section-block violation">
+                        <span class="section-block-title">🔧 Действия при нарушении прав (Если они перешли границы)</span>
+                        <ol>
+                            <li><strong>Если они хватают вас за руки или карту:</strong> Громко, на весь салон, чтобы слышали все пассажиры и записалось на камеру: <em>«Прекратите применять ко мне физическую силу! Ваши действия квалифицируются как Превышение должностных полномочий по статье 286 Уголовного кодекса РФ! Я вынужден применить право на самозащиту гражданских прав, гарантированное статьёй 14 Гражданского кодекса РФ!»</em>. Резко, но соразмерно освободите руки. Не бейте их, просто оттолкните их руки, защищая своё имущество.</li>
+                            <li><strong>Если они не выпускают из салона (блокируют двери):</strong> <em>«Ваши действия по блокированию выхода из транспортного средства квалифицируются как Незаконное лишение свободы, не связанное с похищением, по статье 127 Уголовного кодекса РФ, что наказывается лишением свободы на срок до двух лет. Водитель! Вы, как должностное лицо, обязаны соблюдать график движения и открывать двери на остановках. Если вы не откроете двери, вы станете соучастником уголовного преступления по статье 127 УК РФ. Я требую немедленно освободить проход!»</em>.</li>
+                            <li><strong>Если они вызвали полицию:</strong> Не паникуйте. Полицейский не имеет права передавать ваши документы контролёрам. Когда подойдёт полицейский, скажите ему: <em>«Уважаемый сотрудник полиции, я запрещаю передавать мой паспорт и любые мои персональные данные третьим лицам, в том числе данным контролёрам, на основании статьи 24 Конституции РФ и ФЗ № 152. Я готов предъявить вам свой паспорт для идентификации моей личности, но только из своих рук, не передавая его вам. Прошу вас пресечь самоуправство со стороны контролёров, которые отказываются предъявлять свои служебные удостоверения и применяют ко мне физическую силу»</em>.</li>
+                            <li><strong>После инцидента:</strong> Не уезжайте с ними до конечной, если можете выйти. На ближайшей остановке выходите. В тот же день, пока горячая голова и есть видео, пишите электронную жалобу через портал mos.ru (или сайт перевозчика) в Департамент транспорта, Прокуратуру и Транспортную полицию. Приложите видео, укажите время, маршрут, бортовой номер и ФИО контролёров (если успели переписать). Требуйте привлечь их к дисциплинарной ответственности и провести проверку на предмет превышения полномочий по ст. 286 УК РФ.</li>
+                        </ol>
+                    </div>
+                    <div class="tip-actions">
+                        <button class="btn btn-primary" onclick="copyTip(this)">📋 Скопировать</button>
+                        <button class="btn btn-secondary" onclick="shareTip()">📤 Поделиться</button>
+                        <button class="btn btn-secondary btn-fav" onclick="toggleFav(this, 1)">⭐ В избранное</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <p>Данный материал носит исключительно информационно-правовой характер.</p>
+    <p><strong>Противодействие беспределу | @BespredelaNet</strong></p>
+    <p style="margin-top: 15px; font-size: 0.9em;">Ваша сила — в знании прав и спокойствии.</p>
+</footer>
+
+<div class="copyright-bar">
+    <p class="copyright-main">© Все права защищены 2024 — 2026</p>
+    <p class="copyright-thanks">Спасибо, что остаётесь в рамках закона.</p>
+    <p class="copyright-team">Команда «Противодействие Беспределу»</p>
+</div>
+
+<div id="toast">Действие выполнено!</div>
+
+<script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 73) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 67) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 74) return false;
+        if(e.ctrlKey && e.keyCode == 85) return false;
+        if(e.ctrlKey && e.keyCode == 67) return false;
+        if(e.ctrlKey && e.keyCode == 65) return false;
+        if(e.ctrlKey && e.keyCode == 83) return false;
+    };
+    document.addEventListener('keyup', (e) => {
+        if (e.key == 'PrintScreen') {
+            navigator.clipboard.writeText('');
+            showToast('Скриншоты запрещены!');
+        }
+    });
+
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerText = message;
+        toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+
+    function toggleNPA() {
+        const content = document.getElementById('npaContent');
+        content.classList.toggle('open');
+    }
+
+    function toggleTip(header) {
+        const card = header.closest('.tip-card');
+        card.classList.toggle('open');
+    }
+
+    function toggleAllTips() {
+        const cards = document.querySelectorAll('.tip-card');
+        const btn = document.getElementById('collapseAllBtn');
+        const btnText = document.getElementById('collapseAllText');
+        const icon = btn.querySelector('.btn-icon');
+        
+        const isExpanded = btn.classList.contains('expanded');
+        
+        if (isExpanded) {
+            cards.forEach(card => card.classList.remove('open'));
+            btn.classList.remove('expanded');
+            btnText.innerText = 'Развернуть все советы';
+            icon.style.transform = 'rotate(0deg)';
+            showToast('📦 Все советы свернуты');
+        } else {
+            cards.forEach(card => card.classList.add('open'));
+            btn.classList.add('expanded');
+            btnText.innerText = 'Свернуть все советы';
+            icon.style.transform = 'rotate(180deg)';
+            showToast('📖 Все советы развернуты');
+        }
+    }
+
+    function copyTip(btn) {
+        const card = btn.closest('.tip-card');
+        const title = card.querySelector('.tip-title').innerText;
+        const number = card.querySelector('.tip-number').innerText;
+        
+        let text = `${number} ${title}\n\n`;
+        
+        const sections = card.querySelectorAll('.section-block');
+        sections.forEach(s => {
+            const sTitle = s.querySelector('.section-block-title').innerText;
+            const content = s.querySelector('p') ? s.querySelector('p').innerText : '';
+            const list = s.querySelector('ol');
+            let listText = '';
+            if (list) {
+                list.querySelectorAll('li').forEach(li => {
+                    listText += `  • ${li.innerText}\n`;
+                });
+            }
+            text += `${sTitle}\n${content}\n${listText}\n`;
+        });
+
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('✅ Совет скопирован!');
+        }).catch(() => {
+            showToast('❌ Ошибка копирования');
+        });
+    }
+
+    function shareTip() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Юридический Щит Пассажира',
+                text: 'Советы против беспредела контролёров!',
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showToast('🔗 Ссылка скопирована!');
+            });
+        }
+    }
+
+    function toggleFav(btn, id) {
+        const key = `fav_${id}`;
+        const isFav = localStorage.getItem(key) === 'true';
+        
+        if (isFav) {
+            localStorage.removeItem(key);
+            btn.innerHTML = '⭐ В избранное';
+            showToast('Удалено из избранного');
+        } else {
+            localStorage.setItem(key, 'true');
+            btn.innerHTML = '✅ В избранном';
+            showToast('⭐ Добавлено в избранное!');
+        }
+        
+        if (currentFilter === 'fav') {
+            filterCategory('fav', document.querySelector('.nav-tab:last-child'));
+        }
+    }
+
+    function initFavButtons() {
+        document.querySelectorAll('.btn-fav').forEach(btn => {
+            const card = btn.closest('.tip-card');
+            const id = card.dataset.id;
+            if (localStorage.getItem(`fav_${id}`) === 'true') {
+                btn.innerHTML = '✅ В избранном';
+            }
+        });
+    }
+
+    function performSearch() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.tip-card');
+        let found = 0;
+
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            if (query === '' || text.includes(query)) {
+                card.style.display = '';
+                found++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') performSearch();
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+        if (this.value === '') performSearch();
+    });
+
+    let currentFilter = 'all';
+
+    function filterCategory(category, tabElement) {
+        currentFilter = category;
+        
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        if (tabElement) tabElement.classList.add('active');
+
+        const cards = document.querySelectorAll('.tip-card');
+        let found = 0;
+
+        if (category === 'all') {
+            cards.forEach(card => {
+                card.style.display = '';
+                card.style.animation = 'fadeIn 0.5s ease-out';
+                found++;
+            });
+        } else if (category === 'fav') {
+            cards.forEach(card => {
+                const id = card.dataset.id;
+                if (localStorage.getItem(`fav_${id}`) === 'true') {
+                    card.style.display = '';
+                    card.style.animation = 'fadeIn 0.5s ease-out';
+                    found++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            if (found === 0) {
+                showToast('⭐ Избранных советов пока нет');
+            }
+        } else {
+            cards.forEach(card => {
+                if (card.dataset.category === category) {
+                    card.style.display = '';
+                    card.style.animation = 'fadeIn 0.5s ease-out';
+                    found++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    initFavButtons();
+</script>
+
+</body>
+</html>
