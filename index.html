@@ -9,7 +9,6 @@
 </head>
 <body class="animations-enabled">
 
-<!-- ЭКРАН ВХОДА -->
 <div class="auth-screen" id="authScreen" style="display:none;">
     <div class="auth-box">
         <div class="auth-title">⚖️ Щит</div>
@@ -19,36 +18,44 @@
             <div class="tab" onclick="switchAuthTab('register',this)">Регистрация</div>
         </div>
         <div id="authLoginForm">
-            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="loginEmail" placeholder="your@email.com"></div>
+            <div class="form-group"><label class="form-label">Email / ID / Username / UID</label><input type="text" class="form-input" id="loginIdentifier" placeholder="root, 0, UID или email"></div>
             <div class="form-group"><label class="form-label">Пароль</label><input type="password" class="form-input" id="loginPassword" placeholder="Пароль"></div>
             <button class="btn btn-primary" style="width:100%;" onclick="doLogin()">Войти</button>
         </div>
         <div id="authRegisterForm" style="display:none;">
             <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="regEmail" placeholder="your@email.com"></div>
+            <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="regUsername" placeholder="ivan123"></div>
+            <div class="form-group"><label class="form-label">Никнейм</label><input type="text" class="form-input" id="regDisplayName" placeholder="Иван"></div>
             <div class="form-group"><label class="form-label">Пароль</label><input type="password" class="form-input" id="regPassword" placeholder="Минимум 6 символов"></div>
             <div class="form-group"><label class="form-label">Подтверждение</label><input type="password" class="form-input" id="regConfirm" placeholder="Повторите пароль"></div>
             <button class="btn btn-primary" style="width:100%;" onclick="doRegister()">Зарегистрироваться</button>
         </div>
-        <div class="auth-support">
-            <button onclick="createAnonymousTicket()">🆘 Нужна помощь? Создать тикет</button>
+    </div>
+</div>
+
+<div class="support-chat-btn" id="supportChatBtn" onclick="toggleAnonymousChat()" title="Чат с поддержкой">💬</div>
+
+<div class="anonymous-chat-modal" id="anonymousChatModal">
+    <div class="anonymous-chat-box">
+        <div class="anonymous-chat-header">
+            <div><div style="font-weight:600;">💬 Поддержка</div><div style="font-size:0.75em;color:var(--text-muted);">Анонимный чат</div></div>
+            <button class="btn btn-sm" onclick="toggleAnonymousChat()">✕</button>
+        </div>
+        <div class="anonymous-chat-messages" id="anonymousChatMessages">
+            <div class="chat-message admin"><div class="chat-sender">🛡️ Поддержка</div><div class="chat-text">Здравствуйте! Чем можем помочь?</div></div>
+        </div>
+        <div class="anonymous-chat-input">
+            <input type="text" class="form-input" id="anonymousChatInput" placeholder="Ваше сообщение..." onkeypress="if(event.key==='Enter')sendAnonymousMessage()">
+            <button class="btn btn-primary" onclick="sendAnonymousMessage()">➤</button>
         </div>
     </div>
 </div>
 
-<!-- СТАТУС -->
-<div class="connection-status" id="connectionStatus">
-    <div class="status-dot"></div>
-    <span>Онлайн</span>
-</div>
+<div class="connection-status" id="connectionStatus"><div class="status-dot"></div><span>Онлайн</span></div>
 
-<!-- ОСНОВНОЙ ИНТЕРФЕЙС -->
 <div class="app">
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">⚖️</div>
-            <div class="logo-text">Щит<span>v14.0</span></div>
-        </div>
-        
+        <div class="sidebar-logo"><div class="logo-icon">⚖️</div><div class="logo-text">Щит<span>v16.0</span></div></div>
         <div class="sidebar-section">
             <div class="sidebar-section-title">Главная</div>
             <div class="nav-item active" data-page="home">🏠 Главная</div>
@@ -57,7 +64,6 @@
             <div class="nav-item" data-page="map">🗺️ Карта</div>
             <div class="nav-item" data-page="support">🆘 Поддержка</div>
         </div>
-        
         <div class="sidebar-section">
             <div class="sidebar-section-title">Личное</div>
             <div class="nav-item" data-page="profile">👤 Профиль</div>
@@ -65,7 +71,6 @@
             <div class="nav-item" data-page="history">📜 История</div>
             <div class="nav-item" data-page="settings">⚙️ Мои настройки</div>
         </div>
-        
         <div class="sidebar-section" id="adminSection" style="display:none;">
             <div class="sidebar-section-title">Администрирование</div>
             <div class="nav-item" data-page="dashboard">📊 Дашборд</div>
@@ -81,39 +86,33 @@
             <div class="nav-item" data-page="system">🔧 Системные</div>
             <div class="nav-item" data-page="data">💾 Данные</div>
         </div>
-        
         <div class="nav-item logout" onclick="doLogout()">🚪 Выйти из аккаунта</div>
-        
         <div class="sidebar-footer">
             <div class="user-card" onclick="navigateTo('profile')">
                 <div class="user-avatar" id="userAvatar" style="background:linear-gradient(135deg,var(--primary),var(--accent));">R</div>
                 <div>
                     <div class="user-name" id="userName">ROOT</div>
                     <div class="user-role" id="userRole">Создатель</div>
-                    <div class="user-id" id="userId">ID: —</div>
+                    <div class="user-id" id="userId">ID: 0</div>
+                    <div class="user-uid" id="userUid">UID: —</div>
                 </div>
             </div>
         </div>
     </aside>
-    
     <div class="main">
         <header class="topbar">
             <div style="display:flex;align-items:center;gap:16px;">
                 <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
                 <div class="breadcrumb" id="breadcrumb"><strong>Главная</strong></div>
             </div>
-            <div style="display:flex;gap:8px;">
-                <button class="btn btn-ghost btn-icon" onclick="openSettings()">⚙️</button>
-            </div>
+            <div style="display:flex;gap:8px;"><button class="btn btn-ghost btn-icon" onclick="openSettings()">⚙️</button></div>
         </header>
         <main class="content" id="content"></main>
     </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- МОДАЛКА НАСТРОЕК -->
 <div class="modal-overlay" id="settingsModal" onclick="closeModalOnBg(event,'settingsModal')">
     <div class="modal" onclick="event.stopPropagation()">
         <button class="modal-close" onclick="closeSettings()">✕</button>
@@ -123,7 +122,6 @@
             <div class="tab" onclick="switchSettingsTab('profile',this)">👤 Профиль</div>
             <div class="tab" onclick="switchSettingsTab('danger',this)">⚠️ Опасная зона</div>
         </div>
-
         <div class="settings-tab active" id="settings-appearance">
             <div class="settings-group">
                 <div class="settings-group-title">🌓 Тема</div>
@@ -161,31 +159,17 @@
                 <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">Ночной режим</div></div><div class="toggle" data-key="nightMode" onclick="toggleSetting(this)"></div></div>
             </div>
         </div>
-
         <div class="settings-tab" id="settings-profile" style="display:none;">
             <div class="settings-group">
                 <div class="settings-group-title">🖼️ Аватар</div>
                 <div class="avatar-preview" id="avatarPreview" style="background:linear-gradient(135deg,var(--primary),var(--accent));">R</div>
-                <div class="form-group">
-                    <label class="form-label">Цвет аватара</label>
-                    <input type="color" id="avatarColor" value="#6366f1" onchange="changeAvatarColor(this.value)">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Второй цвет (градиент)</label>
-                    <input type="color" id="avatarColor2" value="#8b5cf6" onchange="changeAvatarGradient()">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Использовать градиент</label>
-                    <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">Включить</div></div><div class="toggle on" data-key="useGradient" onclick="toggleSetting(this);changeAvatarGradient()"></div></div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Или загрузить своё изображение</label>
-                    <input type="file" accept="image/*" onchange="uploadAvatar(event)" style="color:var(--text-dim);">
-                </div>
+                <div class="form-group"><label class="form-label">Цвет аватара</label><input type="color" id="avatarColor" value="#6366f1" onchange="changeAvatarColor(this.value)"></div>
+                <div class="form-group"><label class="form-label">Второй цвет (градиент)</label><input type="color" id="avatarColor2" value="#8b5cf6" onchange="changeAvatarGradient()"></div>
+                <div class="form-group"><label class="form-label">Использовать градиент</label><div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">Включить</div></div><div class="toggle on" data-key="useGradient" onclick="toggleSetting(this);changeAvatarGradient()"></div></div></div>
             </div>
             <div class="settings-group">
-                <div class="settings-group-title">🏷️ Отображаемое имя</div>
-                <input type="text" class="form-input" id="displayName" placeholder="Как вас называть">
+                <div class="settings-group-title">🏷️ Никнейм</div>
+                <input type="text" class="form-input" id="displayName" placeholder="Ваш никнейм">
                 <button class="btn" onclick="saveDisplayName()" style="width:100%;margin-top:10px;">Сохранить</button>
             </div>
             <div class="settings-group">
@@ -196,28 +180,19 @@
                 <button class="btn btn-primary" onclick="changePassword()" style="width:100%;">💾 Сменить пароль</button>
             </div>
         </div>
-
         <div class="settings-tab" id="settings-danger" style="display:none;">
             <div class="settings-group">
                 <div class="settings-group-title">⚠️ Удаление аккаунта</div>
                 <p style="color:var(--text-muted);margin-bottom:16px;">Это действие необратимо.</p>
                 <button class="btn btn-danger" onclick="deleteAccount()">🗑 Удалить мой аккаунт</button>
             </div>
-            <div class="settings-group">
-                <div class="settings-group-title">🔄 Сброс настроек</div>
-                <button class="btn btn-warning" onclick="resetUserSettings()">🔄 Сбросить настройки</button>
-            </div>
         </div>
     </div>
 </div>
 
-<!-- FIREBASE SDK -->
-<script type="module" src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore-compat.js"></script>
-
-<!-- НАШ КОД -->
-<script type="module" src="app.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
