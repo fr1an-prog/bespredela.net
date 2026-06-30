@@ -1,5 +1,5 @@
 // ====================================================================
-// FIREBASE КОНФИГУРАЦИЯ
+// FIREBASE
 // ====================================================================
 const firebaseConfig = {
     apiKey: "AIzaSyARQ40yqOZKa7dJE4655oR2EAUcLCUSCik",
@@ -15,129 +15,385 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ====================================================================
+// КОНСТАНТЫ
+// ====================================================================
+const ROOT_UID = 'xSdPRiSvsbdPI9eTOUh4egITh5Y2';
+const ROOT_EMAIL = 'kowtunov.k@yandex.ru';
+
+const RESERVED_NAMES = ['root','admin','administrator','moderator','mod','owner','создатель','админ','администратор','модератор','мод','владелец','superadmin','главный','boss','chief','director','support','помощь','помощник','helper','system','система'];
+
+// ====================================================================
+// 130+ ПРАВ ДОСТУПА
+// ====================================================================
+const PERMISSIONS_LIST = [
+    {key:'canViewUsers',label:'👥 Просмотр пользователей',cat:'users'},
+    {key:'canCreateUsers',label:'➕ Создание пользователей',cat:'users'},
+    {key:'canEditUsers',label:'✏️ Редактирование пользователей',cat:'users'},
+    {key:'canDeleteUsers',label:'🗑 Удаление пользователей',cat:'users'},
+    {key:'canBanUsers',label:'🚫 Бан пользователей',cat:'users'},
+    {key:'canMuteUsers',label:'🔇 Мут пользователей',cat:'users'},
+    {key:'canKickUsers',label:'👢 Кик пользователей',cat:'users'},
+    {key:'canChangeRoles',label:'🎭 Изменение ролей',cat:'users'},
+    {key:'canChangeEmail',label:'📧 Смена email',cat:'users'},
+    {key:'canChangePassword',label:'🔑 Смена пароля',cat:'users'},
+    {key:'canChangeUsername',label:'🏷 Смена username',cat:'users'},
+    {key:'canChangeDisplayName',label:'👤 Смена никнейма',cat:'users'},
+    {key:'canChangeId',label:'🆔 Смена ID',cat:'users'},
+    {key:'canViewUserDetails',label:'🔍 Просмотр деталей',cat:'users'},
+    {key:'canExportUsers',label:'📤 Экспорт пользователей',cat:'users'},
+    {key:'canViewTips',label:'📚 Просмотр советов',cat:'tips'},
+    {key:'canCreateTips',label:'➕ Создание советов',cat:'tips'},
+    {key:'canEditTips',label:'✏️ Редактирование советов',cat:'tips'},
+    {key:'canDeleteTips',label:'🗑 Удаление советов',cat:'tips'},
+    {key:'canPublishTips',label:'📢 Публикация советов',cat:'tips'},
+    {key:'canFeatureTips',label:'⭐ Избранные советы',cat:'tips'},
+    {key:'canCategorizeTips',label:'📂 Категоризация советов',cat:'tips'},
+    {key:'canRateTips',label:'⭐ Оценка советов',cat:'tips'},
+    {key:'canCommentTips',label:'💬 Комментарии к советам',cat:'tips'},
+    {key:'canShareTips',label:'🔗 Поделиться советом',cat:'tips'},
+    {key:'canViewCategories',label:'📂 Просмотр категорий',cat:'categories'},
+    {key:'canCreateCategories',label:'➕ Создание категорий',cat:'categories'},
+    {key:'canEditCategories',label:'✏️ Редактирование категорий',cat:'categories'},
+    {key:'canDeleteCategories',label:'🗑 Удаление категорий',cat:'categories'},
+    {key:'canReorderCategories',label:'🔄 Изменение порядка',cat:'categories'},
+    {key:'canViewComplaints',label:'📜 Просмотр жалоб',cat:'complaints'},
+    {key:'canCreateComplaints',label:'➕ Создание жалоб',cat:'complaints'},
+    {key:'canEditComplaints',label:'✏️ Редактирование жалоб',cat:'complaints'},
+    {key:'canDeleteComplaints',label:'🗑 Удаление жалоб',cat:'complaints'},
+    {key:'canProcessComplaints',label:'✅ Обработка жалоб',cat:'complaints'},
+    {key:'canArchiveComplaints',label:'📦 Архивация жалоб',cat:'complaints'},
+    {key:'canViewTickets',label:'🎫 Просмотр тикетов',cat:'tickets'},
+    {key:'canCreateTickets',label:'➕ Создание тикетов',cat:'tickets'},
+    {key:'canRespondTickets',label:'💬 Ответы на тикеты',cat:'tickets'},
+    {key:'canCloseTickets',label:'🔒 Закрытие тикетов',cat:'tickets'},
+    {key:'canDeleteTickets',label:'🗑 Удаление тикетов',cat:'tickets'},
+    {key:'canAssignTickets',label:'📌 Назначение тикетов',cat:'tickets'},
+    {key:'canPrioritizeTickets',label:'⚡ Приоритизация',cat:'tickets'},
+    {key:'canTagTickets',label:'🏷 Теги тикетов',cat:'tickets'},
+    {key:'canViewTicketHistory',label:'📜 История тикетов',cat:'tickets'},
+    {key:'canExportTickets',label:'📤 Экспорт тикетов',cat:'tickets'},
+    {key:'canViewChats',label:'💬 Просмотр чатов',cat:'chats'},
+    {key:'canCreateChats',label:'➕ Создание чатов',cat:'chats'},
+    {key:'canSendMessage',label:'📨 Отправка сообщений',cat:'chats'},
+    {key:'canDeleteMessages',label:'🗑 Удаление сообщений',cat:'chats'},
+    {key:'canEditMessages',label:'✏️ Редактирование сообщений',cat:'chats'},
+    {key:'canManageChatRooms',label:'🏠 Управление комнатами',cat:'chats'},
+    {key:'canViewAnonymousChats',label:'🕵️ Просмотр анонимных',cat:'chats'},
+    {key:'canPinMessages',label:'📌 Закрепление сообщений',cat:'chats'},
+    {key:'canReactToMessages',label:'👍 Реакции',cat:'chats'},
+    {key:'canMentionUsers',label:'@ Упоминания',cat:'chats'},
+    {key:'canViewMap',label:'🗺️ Просмотр карты',cat:'map'},
+    {key:'canCreateIncidents',label:'📍 Создание инцидентов',cat:'map'},
+    {key:'canEditIncidents',label:'✏️ Редактирование инцидентов',cat:'map'},
+    {key:'canDeleteIncidents',label:'🗑 Удаление инцидентов',cat:'map'},
+    {key:'canVerifyIncidents',label:'✅ Проверка инцидентов',cat:'map'},
+    {key:'canCategorizeIncidents',label:'📂 Категоризация',cat:'map'},
+    {key:'canViewMapHistory',label:'📜 История карты',cat:'map'},
+    {key:'canExportMap',label:'📤 Экспорт карты',cat:'map'},
+    {key:'canViewTasks',label:'📋 Просмотр задач',cat:'tasks'},
+    {key:'canCreateTasks',label:'➕ Создание задач',cat:'tasks'},
+    {key:'canEditTasks',label:'✏️ Редактирование задач',cat:'tasks'},
+    {key:'canDeleteTasks',label:'🗑 Удаление задач',cat:'tasks'},
+    {key:'canAssignTasks',label:'📌 Назначение задач',cat:'tasks'},
+    {key:'canPrioritizeTasks',label:'⚡ Приоритизация задач',cat:'tasks'},
+    {key:'canCompleteTasks',label:'✅ Завершение задач',cat:'tasks'},
+    {key:'canViewTaskHistory',label:'📜 История задач',cat:'tasks'},
+    {key:'canViewIPBans',label:'🌐 Просмотр IP-банов',cat:'security'},
+    {key:'canCreateIPBans',label:'➕ Создание IP-банов',cat:'security'},
+    {key:'canDeleteIPBans',label:'🗑 Удаление IP-банов',cat:'security'},
+    {key:'canViewLogs',label:'📋 Просмотр логов',cat:'security'},
+    {key:'canClearLogs',label:'🧹 Очистка логов',cat:'security'},
+    {key:'canExportLogs',label:'📤 Экспорт логов',cat:'security'},
+    {key:'canViewSecurityAlerts',label:'🚨 Алерты безопасности',cat:'security'},
+    {key:'canManageFirewall',label:'🔥 Настройка firewall',cat:'security'},
+    {key:'canViewLoginHistory',label:'🔐 История входов',cat:'security'},
+    {key:'canManageSessions',label:'👥 Управление сессиями',cat:'security'},
+    {key:'canViewSystemSettings',label:'🔧 Просмотр настроек',cat:'system'},
+    {key:'canEditSystemSettings',label:'✏️ Редактирование настроек',cat:'system'},
+    {key:'canManageMaintenance',label:'🔧 Режим обслуживания',cat:'system'},
+    {key:'canManageBanners',label:'📢 Управление баннерами',cat:'system'},
+    {key:'canManagePermissions',label:'🔐 Управление правами',cat:'system'},
+    {key:'canManageRegistration',label:'📝 Управление регистрацией',cat:'system'},
+    {key:'canManageThemes',label:'🎨 Управление темами',cat:'system'},
+    {key:'canManageLanguages',label:'🌍 Управление языками',cat:'system'},
+    {key:'canManageTimezones',label:'🕐 Управление часовыми поясами',cat:'system'},
+    {key:'canManageCurrencies',label:'💱 Управление валютами',cat:'system'},
+    {key:'canManageIntegrations',label:'🔗 Управление интеграциями',cat:'system'},
+    {key:'canManageAPI',label:'🔌 Управление API',cat:'system'},
+    {key:'canExportData',label:'💾 Экспорт данных',cat:'data'},
+    {key:'canImportData',label:'📥 Импорт данных',cat:'data'},
+    {key:'canResetData',label:'💣 Сброс данных',cat:'data'},
+    {key:'canManageBackups',label:'📦 Управление бэкапами',cat:'data'},
+    {key:'canViewDatabase',label:'🗄️ Просмотр базы данных',cat:'data'},
+    {key:'canViewAnalytics',label:'📊 Просмотр аналитики',cat:'analytics'},
+    {key:'canViewDashboard',label:'📈 Просмотр дашборда',cat:'analytics'},
+    {key:'canViewStatistics',label:'📉 Просмотр статистики',cat:'analytics'},
+    {key:'canExportReports',label:'📄 Экспорт отчётов',cat:'analytics'},
+    {key:'canViewUserStats',label:'👤 Статистика пользователей',cat:'analytics'},
+    {key:'canViewContentStats',label:'📚 Статистика контента',cat:'analytics'},
+    {key:'canViewTrafficStats',label:'🌐 Статистика трафика',cat:'analytics'},
+    {key:'canViewRevenueStats',label:'💰 Статистика доходов',cat:'analytics'},
+    {key:'canViewFavorites',label:'⭐ Просмотр избранного',cat:'personal'},
+    {key:'canViewHistory',label:'📜 Просмотр истории',cat:'personal'},
+    {key:'canEditProfile',label:'👤 Редактирование профиля',cat:'personal'},
+    {key:'canChangeAvatar',label:'🖼️ Смена аватара',cat:'personal'},
+    {key:'canDeleteAccount',label:'🗑 Удаление аккаунта',cat:'personal'},
+    {key:'canViewMedia',label:'🎥 Просмотр медиа',cat:'media'},
+    {key:'canUploadMedia',label:'📤 Загрузка медиа',cat:'media'},
+    {key:'canEditMedia',label:'✏️ Редактирование медиа',cat:'media'},
+    {key:'canDeleteMedia',label:'🗑 Удаление медиа',cat:'media'},
+    {key:'canManageGallery',label:'🖼️ Управление галереей',cat:'media'},
+    {key:'canViewIntegrations',label:'🔗 Просмотр интеграций',cat:'integrations'},
+    {key:'canManageTelegram',label:'📱 Telegram бот',cat:'integrations'},
+    {key:'canManageEmail',label:'📧 Email интеграция',cat:'integrations'},
+    {key:'canManageSMS',label:'💬 SMS интеграция',cat:'integrations'},
+    {key:'canManageWebhooks',label:'🪝 Webhooks',cat:'integrations'},
+    {key:'canViewFinance',label:'💰 Просмотр финансов',cat:'finance'},
+    {key:'canManagePayments',label:'💳 Управление платежами',cat:'finance'},
+    {key:'canManageSubscriptions',label:'📋 Управление подписками',cat:'finance'},
+    {key:'canViewInvoices',label:'📄 Просмотр счетов',cat:'finance'},
+    {key:'canManageRefunds',label:'↩️ Управление возвратами',cat:'finance'},
+    {key:'canViewNotifications',label:'🔔 Просмотр уведомлений',cat:'notifications'},
+    {key:'canSendNotifications',label:'📤 Отправка уведомлений',cat:'notifications'},
+    {key:'canManagePush',label:'📱 Push уведомления',cat:'notifications'},
+    {key:'canManageEmailNotif',label:'📧 Email уведомления',cat:'notifications'},
+    {key:'canManageSMSNotif',label:'💬 SMS уведомления',cat:'notifications'}
+];
+
+const PERMISSION_CATEGORIES = {
+    users:'👥 Пользователи',tips:'📚 Советы',categories:'📂 Категории',complaints:'📜 Жалобы',
+    tickets:'🎫 Тикеты',chats:'💬 Чаты',map:'🗺️ Карта',tasks:'📋 Задачи',
+    security:'🌐 Безопасность',system:'🔧 Системные',data:'💾 Данные',
+    analytics:'📊 Аналитика',personal:'⭐ Личное',media:'🎥 Медиа',
+    integrations:'🔗 Интеграции',finance:'💰 Финансы',notifications:'🔔 Уведомления'
+};
+
+// ====================================================================
 // ДАННЫЕ
 // ====================================================================
 let currentUser = null;
+let allUsers = [];
 let tips = [];
-let categories = [];
 let tickets = [];
-let users = [];
 let currentPage = 'home';
+let anonymousChatId = null;
 
 let userSettings = {
-    theme: 'dark',
-    accent: 'indigo',
-    customColor: null,
-    displayName: '',
-    avatarColor: '#6366f1',
-    avatarColor2: '#8b5cf6',
-    useGradient: true,
-    animations: true,
-    highContrast: false,
-    bigButtons: false,
-    largeText: false,
-    nightMode: false
+    theme:'dark',accent:'indigo',customColor:null,
+    avatarColor:'#6366f1',avatarColor2:'#8b5cf6',useGradient:true,
+    animations:true,highContrast:false,bigButtons:false,largeText:false,nightMode:false
 };
 
 let systemSettings = {
-    maintenanceMode: false,
-    registrationRequired: false,
-    globalBannerEnabled: false,
-    globalBannerText: '',
-    globalBannerType: 'info',
-    globalBannerIcon: '📢',
-    allowDeleteAccount: true,
-    allowChangePassword: true,
-    allowChangeName: true,
-    allowCreateTips: true,
-    allowCreateTasks: true,
-    allowCreateTickets: true,
-    allowUserRegistration: true,
-    enableChat: true,
-    enableMap: true,
-    enableComplaints: true,
-    enableFavorites: true,
-    enableTips: true,
-    enableSupport: true,
-    showWelcomeMessage: true,
-    welcomeMessage: 'Добро пожаловать в Щит!'
+    maintenanceMode:false,registrationRequired:false,
+    globalBannerEnabled:false,globalBannerText:'',globalBannerType:'info',globalBannerIcon:'📢',
+    allowDeleteAccount:true,allowChangePassword:true,allowChangeName:true,
+    allowCreateTips:true,allowCreateTasks:true,allowCreateTickets:true,
+    allowUserRegistration:true,
+    enableChat:true,enableMap:true,enableComplaints:true,enableFavorites:true,
+    enableTips:true,enableSupport:true,
+    showWelcomeMessage:true,welcomeMessage:'Добро пожаловать в Щит!'
 };
+
+function getDefaultPermissions() {
+    const p = {};
+    PERMISSIONS_LIST.forEach(perm => p[perm.key] = false);
+    return p;
+}
+
+function getModeratorPermissions() {
+    const p = getDefaultPermissions();
+    ['canViewUsers','canViewTips','canCreateTips','canViewTickets','canRespondTickets','canViewChats','canSendMessage','canViewMap','canViewTasks','canCreateTasks','canViewIPBans','canViewLogs','canViewAnalytics','canViewDashboard','canViewFavorites','canViewHistory','canViewNotifications'].forEach(k => p[k] = true);
+    return p;
+}
+
+function getAdminPermissions() {
+    const p = getDefaultPermissions();
+    PERMISSIONS_LIST.forEach(perm => {
+        if (!perm.key.includes('System') && !perm.key.includes('Reset') && !perm.key.includes('Permissions')) {
+            p[perm.key] = true;
+        }
+    });
+    return p;
+}
 
 // ====================================================================
 // АВТОРИЗАЦИЯ
 // ====================================================================
 auth.onAuthStateChanged(async (user) => {
     if (user) {
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        const userData = userDoc.exists ? userDoc.data() : {};
+        
         currentUser = {
             uid: user.uid,
+            uuid: userData.uuid || generateUUID(),
+            id: userData.id !== undefined ? userData.id : await generateNewId(),
+            username: userData.username || user.email.split('@')[0],
+            displayName: userData.displayName || user.displayName || user.email.split('@')[0],
             email: user.email,
-            displayName: user.displayName || user.email.split('@')[0],
-            role: user.email === 'kowtunov.k@yandex.ru' ? 'root' : 'user'
+            role: user.uid === ROOT_UID ? 'root' : (userData.role || 'user'),
+            permissions: userData.permissions || getDefaultPermissions(),
+            banned: userData.banned || false,
+            muted: userData.muted || false,
+            kicked: userData.kicked || false
         };
+        
+        if (!userDoc.exists) await saveUserData();
         
         await loadUserSettings();
         await loadSystemSettings();
         
         document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('supportChatBtn').style.display = 'none';
         initApp();
-        showToast('success', 'Добро пожаловать!', currentUser.displayName);
+        showToast('success','Добро пожаловать!',currentUser.displayName);
     } else {
         currentUser = null;
         document.getElementById('authScreen').style.display = 'flex';
+        document.getElementById('supportChatBtn').style.display = 'flex';
     }
 });
 
-window.switchAuthTab = function(tab, el) {
-    document.querySelectorAll('#authScreen .tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('authLoginForm').style.display = tab === 'login' ? 'block' : 'none';
-    document.getElementById('authRegisterForm').style.display = tab === 'register' ? 'block' : 'none';
-};
+function generateUUID() {
+    return 'uuid_' + Date.now() + '_' + Math.random().toString(36).substr(2,16);
+}
 
-window.doLogin = async function() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+async function generateNewId() {
+    const snapshot = await db.collection('users').get();
+    let maxId = 0;
+    snapshot.forEach(doc => {
+        const id = doc.data().id;
+        if (typeof id === 'number' && id > maxId) maxId = id;
+    });
+    return maxId + 1;
+}
+
+async function saveUserData() {
     try {
-        await auth.signInWithEmailAndPassword(email, password);
-    } catch (e) {
-        showToast('danger', 'Ошибка', e.message);
+        await db.collection('users').doc(currentUser.uid).set({
+            uid:currentUser.uid,uuid:currentUser.uuid,id:currentUser.id,
+            username:currentUser.username,displayName:currentUser.displayName,
+            email:currentUser.email,role:currentUser.role,
+            permissions:currentUser.permissions,
+            banned:currentUser.banned,muted:currentUser.muted,kicked:currentUser.kicked,
+            settings:userSettings,
+            updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+        },{merge:true});
+    } catch(e) { console.error(e); }
+}
+
+// ====================================================================
+// ВХОД ПО ЛЮБОМУ ID
+// ====================================================================
+window.doLogin = async function() {
+    const identifier = document.getElementById('loginIdentifier').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    
+    if (!identifier || !password) {
+        showToast('danger','Ошибка','Заполните все поля');
+        return;
+    }
+    
+    let email = null;
+    
+    try {
+        if (identifier.includes('@')) {
+            email = identifier;
+        } else if (identifier === '0' || identifier.toLowerCase() === 'root') {
+            const rootDoc = await db.collection('users').doc(ROOT_UID).get();
+            email = rootDoc.exists ? rootDoc.data().email : ROOT_EMAIL;
+        } else if (identifier.startsWith('uuid_') || identifier.length > 20) {
+            const snapshot = await db.collection('users').where('uuid','==',identifier).get();
+            if (!snapshot.empty) email = snapshot.docs[0].data().email;
+            else {
+                const byUid = await db.collection('users').doc(identifier).get();
+                if (byUid.exists) email = byUid.data().email;
+            }
+        } else if (!isNaN(identifier)) {
+            const snapshot = await db.collection('users').where('id','==',parseInt(identifier)).get();
+            if (!snapshot.empty) email = snapshot.docs[0].data().email;
+        } else {
+            const snapshot = await db.collection('users').where('username','==',identifier.toLowerCase()).get();
+            if (!snapshot.empty) email = snapshot.docs[0].data().email;
+        }
+        
+        if (!email) {
+            showToast('danger','Ошибка','Пользователь не найден');
+            return;
+        }
+        
+        await auth.signInWithEmailAndPassword(email,password);
+    } catch(e) {
+        showToast('danger','Ошибка входа',e.message);
     }
 };
 
+// ====================================================================
+// РЕГИСТРАЦИЯ
+// ====================================================================
 window.doRegister = async function() {
-    const email = document.getElementById('regEmail').value;
+    const email = document.getElementById('regEmail').value.trim();
+    const username = document.getElementById('regUsername').value.trim().toLowerCase();
+    const displayName = document.getElementById('regDisplayName').value.trim();
     const password = document.getElementById('regPassword').value;
     const confirm = document.getElementById('regConfirm').value;
     
+    if (!email || !username || !displayName || !password || !confirm) {
+        showToast('danger','Ошибка','Заполните все поля');
+        return;
+    }
+    
+    if (RESERVED_NAMES.includes(username)) {
+        alert(`❌ Username "${username}" запрещён!\n\nВыберите другое имя.`);
+        return;
+    }
+    
+    if (RESERVED_NAMES.includes(displayName.toLowerCase())) {
+        alert(`❌ Никнейм "${displayName}" запрещён!\n\nВыберите другое имя.`);
+        return;
+    }
+    
     if (password !== confirm) {
-        showToast('danger', 'Ошибка', 'Пароли не совпадают');
+        showToast('danger','Ошибка','Пароли не совпадают');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showToast('danger','Ошибка','Минимум 6 символов');
+        return;
+    }
+    
+    const usernameCheck = await db.collection('users').where('username','==',username).get();
+    if (!usernameCheck.empty) {
+        alert(`❌ Username "${username}" уже занят!`);
         return;
     }
     
     try {
-        await auth.createUserWithEmailAndPassword(email, password);
-        showToast('success', 'Регистрация успешна!', email);
-    } catch (e) {
-        showToast('danger', 'Ошибка', e.message);
-    }
-};
-
-window.doLogout = async function() {
-    await auth.signOut();
-    showToast('success', 'Вы вышли', 'До встречи!');
-};
-
-window.createAnonymousTicket = function() {
-    showToast('info', 'Поддержка', 'Создайте тикет после входа в аккаунт');
-};
-
+        const cred = await auth.createUserWithEmailAndPassword(email,password);
+        const newId = await generateNewId();
+        const newUuid = generateUUID();
+        
+        await db.collection('users').doc(cred.user.uid).set({
+            uid:cred.user.uid,uuid:newUuid,id:newId,
+            username:username,displayName:displayName,email:email,
+            role:'user',permissions:getDefaultPermissions(),
+            banned:false,muted:false,kicked:false,
+            settings:userSettings,
+            createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        showToast('success','Регистрация успешна!',`ID: ${newId}`);
+    } catch(e) {
 // ====================================================================
 // НАСТРОЙКИ ПОЛЬЗОВАТЕЛЯ
 // ====================================================================
 async function loadUserSettings() {
     try {
         const doc = await db.collection('users').doc(currentUser.uid).get();
-        if (doc.exists) {
+        if (doc.exists && doc.data().settings) {
             userSettings = { ...userSettings, ...doc.data().settings };
         }
     } catch (e) {
@@ -148,9 +404,6 @@ async function loadUserSettings() {
 async function saveUserSettings() {
     try {
         await db.collection('users').doc(currentUser.uid).set({
-            email: currentUser.email,
-            displayName: currentUser.displayName,
-            role: currentUser.role,
             settings: userSettings,
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
@@ -177,7 +430,7 @@ async function saveSystemSettings() {
     try {
         await db.collection('settings').doc('system').set(systemSettings, { merge: true });
     } catch (e) {
-        console.error('Ошибка сохранения системных настроек:', e);
+        console.error('Ошибка сохранения:', e);
     }
 }
 
@@ -223,25 +476,18 @@ function escapeHtml(text) {
 // ПРИМЕНЕНИЕ НАСТРОЕК
 // ====================================================================
 function applySettings() {
-    const classes = ['accent-purple','accent-pink','accent-green','accent-blue','accent-orange','accent-red','accent-cyan','accent-yellow','theme-light','animations-enabled','animations-disabled','big-buttons','high-contrast','large-text','night-mode'];
+    const classes = ['accent-purple', 'accent-pink', 'accent-green', 'accent-blue', 'accent-orange', 'accent-red', 'accent-cyan', 'accent-yellow', 'theme-light', 'animations-enabled', 'animations-disabled', 'big-buttons', 'high-contrast', 'large-text', 'night-mode'];
     classes.forEach(c => document.body.classList.remove(c));
     
-    if (userSettings.theme === 'light') {
-        document.body.classList.add('theme-light');
-    } else if (userSettings.theme === 'auto' && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        document.body.classList.add('theme-light');
-    }
+    if (userSettings.theme === 'light') document.body.classList.add('theme-light');
+    else if (userSettings.theme === 'auto' && window.matchMedia('(prefers-color-scheme: light)').matches) document.body.classList.add('theme-light');
     
-    if (userSettings.animations) {
-        document.body.classList.add('animations-enabled');
-    } else {
-        document.body.classList.add('animations-disabled');
-    }
+    if (userSettings.animations) document.body.classList.add('animations-enabled');
+    else document.body.classList.add('animations-disabled');
     
     if (userSettings.customColor) {
         document.documentElement.style.setProperty('--primary', userSettings.customColor);
         document.documentElement.style.setProperty('--primary-hover', userSettings.customColor);
-        document.documentElement.style.setProperty('--primary-soft', userSettings.customColor + '20');
     } else if (userSettings.accent !== 'indigo') {
         document.body.classList.add('accent-' + userSettings.accent);
     }
@@ -258,8 +504,9 @@ function updateUserInfo() {
     if (!currentUser) return;
     
     document.getElementById('userName').textContent = currentUser.displayName;
-    document.getElementById('userRole').textContent = currentUser.role === 'root' ? 'Создатель' : 'Пользователь';
-    document.getElementById('userId').textContent = 'ID: ' + currentUser.uid.substring(0, 8);
+    document.getElementById('userRole').textContent = currentUser.role === 'root' ? 'Создатель' : currentUser.role;
+    document.getElementById('userId').textContent = `ID: ${currentUser.id}`;
+    document.getElementById('userUid').textContent = `UID: ${currentUser.uid.substring(0, 12)}...`;
     
     const avatar = document.getElementById('userAvatar');
     avatar.textContent = currentUser.displayName.charAt(0).toUpperCase();
@@ -270,7 +517,8 @@ function updateUserInfo() {
         avatar.style.background = userSettings.avatarColor;
     }
     
-    document.getElementById('adminSection').style.display = currentUser.role === 'root' ? 'block' : 'none';
+    const isAdmin = currentUser.role === 'root' || currentUser.permissions.canViewUsers || currentUser.permissions.canManageUsers;
+    document.getElementById('adminSection').style.display = isAdmin ? 'block' : 'none';
 }
 
 // ====================================================================
@@ -338,18 +586,16 @@ document.querySelectorAll('.color-swatch').forEach(swatch => {
 });
 
 window.applyCustomColor = function() {
-    const color = document.getElementById('customColor').value;
-    userSettings.customColor = color;
+    userSettings.customColor = document.getElementById('customColor').value;
     saveUserSettings();
     applySettings();
-    showToast('success', 'Цвет применён', color);
+    showToast('success', 'Цвет применён', userSettings.customColor);
 };
 
 window.changeAvatarColor = function(color) {
     userSettings.avatarColor = color;
     saveUserSettings();
     applySettings();
-    showToast('success', 'Цвет аватара изменён', '');
 };
 
 window.changeAvatarGradient = function() {
@@ -358,29 +604,19 @@ window.changeAvatarGradient = function() {
     applySettings();
 };
 
-window.uploadAvatar = function(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        userSettings.avatarImage = e.target.result;
-        saveUserSettings();
-        applySettings();
-        showToast('success', 'Аватар загружен', '');
-    };
-    reader.readAsDataURL(file);
-};
-
 window.saveDisplayName = function() {
     const newName = document.getElementById('displayName').value.trim();
-    if (!newName) return showToast('danger', 'Ошибка', 'Введите имя');
+    if (!newName) return showToast('danger', 'Ошибка', 'Введите никнейм');
+    
+    if (RESERVED_NAMES.includes(newName.toLowerCase())) {
+        alert(`❌ Никнейм "${newName}" запрещён!`);
+        return;
+    }
     
     currentUser.displayName = newName;
-    userSettings.displayName = newName;
-    saveUserSettings();
+    saveUserData();
     applySettings();
-    showToast('success', 'Имя сохранено', newName);
+    showToast('success', 'Никнейм сохранён', newName);
 };
 
 window.changePassword = async function() {
@@ -388,15 +624,8 @@ window.changePassword = async function() {
     const newPass = document.getElementById('newPass').value;
     const confirm = document.getElementById('confirmPass').value;
     
-    if (newPass !== confirm) {
-        showToast('danger', 'Ошибка', 'Пароли не совпадают');
-        return;
-    }
-    
-    if (newPass.length < 6) {
-        showToast('danger', 'Ошибка', 'Минимум 6 символов');
-        return;
-    }
+    if (newPass !== confirm) return showToast('danger', 'Ошибка', 'Пароли не совпадают');
+    if (newPass.length < 6) return showToast('danger', 'Ошибка', 'Минимум 6 символов');
     
     try {
         const user = auth.currentUser;
@@ -415,38 +644,20 @@ window.changePassword = async function() {
 };
 
 window.deleteAccount = async function() {
-    if (!confirm('⚠️ Удалить ваш аккаунт?')) return;
-    if (!confirm('Это действие НЕОБРАТИМО!')) return;
+    if (currentUser.uid === ROOT_UID) {
+        alert('❌ Нельзя удалить ROOT аккаунт!');
+        return;
+    }
+    if (!confirm('Удалить ваш аккаунт?')) return;
+    if (!confirm('Это НЕОБРАТИМО!')) return;
     
     try {
+        await db.collection('users').doc(currentUser.uid).delete();
         await auth.currentUser.delete();
-        showToast('success', 'Аккаунт удалён', 'До свидания!');
+        showToast('success', 'Аккаунт удалён', '');
     } catch (e) {
         showToast('danger', 'Ошибка', e.message);
     }
-};
-
-window.resetUserSettings = function() {
-    if (!confirm('Сбросить все настройки?')) return;
-    
-    userSettings = {
-        theme: 'dark',
-        accent: 'indigo',
-        customColor: null,
-        displayName: currentUser.displayName,
-        avatarColor: '#6366f1',
-        avatarColor2: '#8b5cf6',
-        useGradient: true,
-        animations: true,
-        highContrast: false,
-        bigButtons: false,
-        largeText: false,
-        nightMode: false
-    };
-    
-    saveUserSettings();
-    applySettings();
-    showToast('success', 'Настройки сброшены', '');
 };
 
 // ====================================================================
@@ -460,10 +671,10 @@ window.navigateTo = function(page) {
     
     const titles = {
         home: 'Главная', tips: 'Советы', complaints: 'Жалобы', map: 'Карта', support: 'Поддержка',
-        profile: 'Профиль', favorites: 'Избранное', history: 'История', settings: 'Мои настройки',
-        dashboard: 'Дашборд', users: 'Пользователи', tickets: 'Тикеты', ips: 'IP-баны',
-        bans: 'Баны', mutes: 'Муты', kicks: 'Кикнутые', tasks: 'Задачи', cats: 'Категории',
-        logs: 'Логи', system: 'Системные', data: 'Данные'
+        profile: 'Профиль', favorites: 'Избранное', history: 'История',
+        dashboard: 'Дашборд', users: 'Пользователи', tickets: 'Тикеты',
+        ips: 'IP-баны', bans: 'Баны', mutes: 'Муты', kicks: 'Кикнутые',
+        tasks: 'Задачи', cats: 'Категории', logs: 'Логи', system: 'Системные', data: 'Данные'
     };
     
     document.getElementById('breadcrumb').innerHTML = '<strong>' + (titles[page] || page) + '</strong>';
@@ -474,28 +685,27 @@ window.navigateTo = function(page) {
 function renderPage() {
     const c = document.getElementById('content');
     
-    switch(currentPage) {
+    if (systemSettings.maintenanceMode && currentUser.role !== 'root') {
+        c.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔧</div><div style="font-size:1.5em;margin-bottom:12px;">Режим обслуживания</div><div>Сайт временно недоступен</div></div>';
+        return;
+    }
+    
+    switch (currentPage) {
         case 'home': renderHome(c); break;
         case 'tips': renderTips(c); break;
-        case 'complaints': renderComplaints(c); break;
-        case 'map': renderMap(c); break;
-        case 'support': renderSupport(c); break;
         case 'profile': renderProfile(c); break;
-        case 'favorites': renderFavorites(c); break;
-        case 'history': renderHistory(c); break;
-        case 'settings': openSettings(); renderHome(c); break;
-        case 'dashboard': renderDashboard(c); break;
         case 'users': renderUsers(c); break;
+        case 'system': renderSystem(c); break;
         case 'tickets': renderTickets(c); break;
-        case 'ips': renderIPs(c); break;
         case 'bans': renderBans(c); break;
         case 'mutes': renderMutes(c); break;
         case 'kicks': renderKicks(c); break;
-        case 'tasks': renderTasks(c); break;
-        case 'cats': renderCategories(c); break;
+        case 'ips': renderIPs(c); break;
         case 'logs': renderLogs(c); break;
-        case 'system': renderSystem(c); break;
-        case 'data': renderData(c); break;
+        case 'cats': renderCategories(c); break;
+        case 'tasks': renderTasks(c); break;
+        case 'dashboard': renderDashboard(c); break;
+        default: c.innerHTML = `<div class="page-title">${currentPage}</div><div class="empty-state"><div class="empty-state-icon">🚧</div><div>В разработке</div></div>`;
     }
 }
 
@@ -508,10 +718,10 @@ function renderHome(c) {
         <div class="page-subtitle">Система правовой самообороны</div>
         
         <div class="bento-grid">
+            <div class="stat-card"><div class="stat-label">Пользователей</div><div class="stat-value">${allUsers.length}</div></div>
             <div class="stat-card"><div class="stat-label">Советов</div><div class="stat-value">${tips.length}</div></div>
-            <div class="stat-card"><div class="stat-label">Категорий</div><div class="stat-value">${categories.length}</div></div>
             <div class="stat-card"><div class="stat-label">Тикетов</div><div class="stat-value">${tickets.length}</div></div>
-            <div class="stat-card"><div class="stat-label">Пользователей</div><div class="stat-value">${users.length}</div></div>
+            <div class="stat-card"><div class="stat-label">Ваш ID</div><div class="stat-value">${currentUser.id}</div></div>
         </div>
         
         <div class="card">
@@ -527,6 +737,16 @@ function renderHome(c) {
                     <div style="font-weight:600;">Поддержка</div>
                     <div style="color:var(--text-muted);font-size:0.85em;">Тикеты</div>
                 </div>
+                <div class="card" style="cursor:pointer;margin:0;" onclick="navigateTo('users')">
+                    <div style="font-size:2em;margin-bottom:8px;">👥</div>
+                    <div style="font-weight:600;">Пользователи</div>
+                    <div style="color:var(--text-muted);font-size:0.85em;">Управление</div>
+                </div>
+                <div class="card" style="cursor:pointer;margin:0;" onclick="navigateTo('system')">
+                    <div style="font-size:2em;margin-bottom:8px;">🔧</div>
+                    <div style="font-weight:600;">Системные</div>
+                    <div style="color:var(--text-muted);font-size:0.85em;">Настройки</div>
+                </div>
             </div>
         </div>
     `;
@@ -537,7 +757,7 @@ function renderTips(c) {
         <div class="page-title">📚 Советы</div>
         <div class="page-subtitle">База знаний</div>
         
-        ${currentUser.role === 'root' ? `
+        ${currentUser.role === 'root' || currentUser.permissions.canCreateTips ? `
         <div class="card">
             <div style="font-weight:600;margin-bottom:12px;">➕ Добавить совет</div>
             <div class="form-group"><label class="form-label">Название</label><input type="text" class="form-input" id="newTipTitle" placeholder="Например: Требование документов"></div>
@@ -568,7 +788,7 @@ async function loadTips() {
                         <div style="font-weight:600;font-size:1.1em;">${escapeHtml(t.title)}</div>
                         <div style="color:var(--text-muted);font-size:0.85em;">Автор: ${escapeHtml(t.author || '—')}</div>
                     </div>
-                    ${currentUser.role === 'root' ? `<button class="btn btn-sm btn-danger" onclick="deleteTip('${t.id}')">🗑</button>` : ''}
+                    ${currentUser.role === 'root' || currentUser.permissions.canDeleteTips ? `<button class="btn btn-sm btn-danger" onclick="deleteTip('${t.id}')">🗑</button>` : ''}
                 </div>
                 <div>${escapeHtml(t.essence)}</div>
             </div>
@@ -587,8 +807,7 @@ window.addTip = async function() {
     
     try {
         await db.collection('tips').add({
-            title,
-            essence,
+            title, essence,
             author: currentUser.displayName,
             authorId: currentUser.uid,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -616,19 +835,9 @@ window.deleteTip = async function(id) {
     }
 };
 
-function renderComplaints(c) {
-    c.innerHTML = '<div class="page-title">📜 Жалобы</div><div class="page-subtitle">Шаблоны жалоб</div><div class="empty-state"><div class="empty-state-icon">📜</div><div>В разработке</div></div>';
-}
-
-function renderMap(c) {
-    c.innerHTML = '<div class="page-title">🗺️ Карта</div><div class="page-subtitle">Инциденты</div><div class="empty-state"><div class="empty-state-icon">🗺️</div><div>В разработке</div></div>';
-}
-
-function renderSupport(c) {
-    c.innerHTML = '<div class="page-title">🆘 Поддержка</div><div class="page-subtitle">Тикетная система</div><div class="empty-state"><div class="empty-state-icon">🆘</div><div>В разработке</div></div>';
-}
-
 function renderProfile(c) {
+    const enabledPerms = PERMISSIONS_LIST.filter(p => currentUser.permissions && currentUser.permissions[p.key]).length;
+    
     c.innerHTML = `
         <div class="page-title">👤 Профиль</div>
         <div class="page-subtitle">Ваши данные</div>
@@ -637,172 +846,7 @@ function renderProfile(c) {
                 <div style="width:80px;height:80px;border-radius:50%;background:${userSettings.useGradient ? `linear-gradient(135deg, ${userSettings.avatarColor}, ${userSettings.avatarColor2})` : userSettings.avatarColor};display:flex;align-items:center;justify-content:center;font-size:2em;font-weight:700;color:white;">${currentUser.displayName.charAt(0).toUpperCase()}</div>
                 <div>
                     <div style="font-size:1.5em;font-weight:700;">${escapeHtml(currentUser.displayName)}</div>
-                    <div style="color:var(--text-muted);">Email: ${escapeHtml(currentUser.email)}</div>
-                    <div style="color:var(--text-muted);font-family:'JetBrains Mono',monospace;">ID: ${currentUser.uid}</div>
-                    <div style="color:var(--text-muted);">Роль: ${currentUser.role}</div>
-                </div>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="openSettings()">⚙️ Настройки</button>
-            </div>
-        </div>
-    `;
-}
-
-function renderFavorites(c) {
-    c.innerHTML = '<div class="page-title">⭐ Избранное</div><div class="page-subtitle">Сохранённые советы</div><div class="empty-state"><div class="empty-state-icon">⭐</div><div>Пока нет избранных советов</div></div>';
-}
-
-function renderHistory(c) {
-    c.innerHTML = '<div class="page-title">📜 История</div><div class="page-subtitle">Ваши действия</div><div class="empty-state"><div class="empty-state-icon">📜</div><div>История пуста</div></div>';
-}
-
-function renderDashboard(c) { c.innerHTML = '<div class="page-title">📊 Дашборд</div><div class="page-subtitle">В разработке</div>'; }
-function renderUsers(c) { c.innerHTML = '<div class="page-title">👥 Пользователи</div><div class="page-subtitle">В разработке</div>'; }
-function renderTickets(c) { c.innerHTML = '<div class="page-title">🎫 Тикеты</div><div class="page-subtitle">В разработке</div>'; }
-function renderIPs(c) { c.innerHTML = '<div class="page-title">🌐 IP-баны</div><div class="page-subtitle">В разработке</div>'; }
-function renderBans(c) { c.innerHTML = '<div class="page-title">🚫 Баны</div><div class="page-subtitle">В разработке</div>'; }
-function renderMutes(c) { c.innerHTML = '<div class="page-title">🔇 Муты</div><div class="page-subtitle">В разработке</div>'; }
-function renderKicks(c) { c.innerHTML = '<div class="page-title">👢 Кикнутые</div><div class="page-subtitle">В разработке</div>'; }
-function renderTasks(c) { c.innerHTML = '<div class="page-title">📋 Задачи</div><div class="page-subtitle">В разработке</div>'; }
-function renderCategories(c) { c.innerHTML = '<div class="page-title">📂 Категории</div><div class="page-subtitle">В разработке</div>'; }
-function renderLogs(c) { c.innerHTML = '<div class="page-title">📋 Логи</div><div class="page-subtitle">В разработке</div>'; }
-function renderData(c) { c.innerHTML = '<div class="page-title">💾 Данные</div><div class="page-subtitle">В разработке</div>'; }
-
-function renderSystem(c) {
-    if (currentUser.role !== 'root') {
-        c.innerHTML = '<div class="page-title">🔧 Системные настройки</div><div class="page-subtitle">Доступ запрещён</div><div class="empty-state"><div class="empty-state-icon">🔒</div><div>Только ROOT может управлять системными настройками</div></div>';
-        return;
-    }
-    
-    c.innerHTML = `
-        <div class="page-title">🔧 Системные настройки</div>
-        <div class="page-subtitle">Только для ROOT</div>
+                    <div style="color:var(--text-muted);">@${escapeHtml(currentUser.username)}</div>
+                    <div style="color:var(--text-muted);">${escapeHtml(currentUser.email)}</div>
+                    <div style="color:var(--text-muted);">Роль
         
-        <div class="card">
-            <div class="settings-group-title">🚦 Режимы работы</div>
-            <div class="toggle-row">
-                <div class="toggle-row-info">
-                    <div class="toggle-row-title">🔧 Режим обслуживания</div>
-                    <div style="font-size:0.75em;color:var(--text-muted);">Закрыть сайт для всех кроме ROOT</div>
-                </div>
-                <div class="toggle ${systemSettings.maintenanceMode ? 'on' : ''}" data-key="maintenanceMode" onclick="toggleSysSetting(this)"></div>
-            </div>
-            <div class="toggle-row">
-                <div class="toggle-row-info">
-                    <div class="toggle-row-title">🔒 Обязательная регистрация</div>
-                    <div style="font-size:0.75em;color:var(--text-muted);">Требовать вход для всех</div>
-                </div>
-                <div class="toggle ${systemSettings.registrationRequired ? 'on' : ''}" data-key="registrationRequired" onclick="toggleSysSetting(this)"></div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="settings-group-title">📢 Глобальный баннер</div>
-            <div class="toggle-row">
-                <div class="toggle-row-info">
-                    <div class="toggle-row-title">🎯 Показать баннер</div>
-                    <div style="font-size:0.75em;color:var(--text-muted);">Показывать всем пользователям</div>
-                </div>
-                <div class="toggle ${systemSettings.globalBannerEnabled ? 'on' : ''}" data-key="globalBannerEnabled" onclick="toggleSysSetting(this)"></div>
-            </div>
-            <div class="form-group" style="margin-top:12px;">
-                <label class="form-label">Иконка</label>
-                <input type="text" class="form-input" id="bannerIcon" value="${systemSettings.globalBannerIcon}" onchange="updateSysSetting('globalBannerIcon', this.value)">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Текст баннера</label>
-                <input type="text" class="form-input" id="bannerText" value="${systemSettings.globalBannerText}" onchange="updateSysSetting('globalBannerText', this.value)" placeholder="Введите текст...">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Тип</label>
-                <select class="form-select" onchange="updateSysSetting('globalBannerType', this.value)">
-                    <option value="info" ${systemSettings.globalBannerType === 'info' ? 'selected' : ''}>ℹ️ Инфо</option>
-                    <option value="warning" ${systemSettings.globalBannerType === 'warning' ? 'selected' : ''}>⚠️ Предупреждение</option>
-                    <option value="danger" ${systemSettings.globalBannerType === 'danger' ? 'selected' : ''}>🚨 Важное</option>
-                    <option value="success" ${systemSettings.globalBannerType === 'success' ? 'selected' : ''}>✅ Успех</option>
-                </select>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="settings-group-title">🎛 Разрешения пользователей</div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">👤 Удаление аккаунтов</div></div><div class="toggle ${systemSettings.allowDeleteAccount ? 'on' : ''}" data-key="allowDeleteAccount" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🔑 Смена паролей</div></div><div class="toggle ${systemSettings.allowChangePassword ? 'on' : ''}" data-key="allowChangePassword" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🏷 Смена имени</div></div><div class="toggle ${systemSettings.allowChangeName ? 'on' : ''}" data-key="allowChangeName" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📚 Создание советов</div></div><div class="toggle ${systemSettings.allowCreateTips ? 'on' : ''}" data-key="allowCreateTips" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📋 Создание задач</div></div><div class="toggle ${systemSettings.allowCreateTasks ? 'on' : ''}" data-key="allowCreateTasks" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🎫 Создание тикетов</div></div><div class="toggle ${systemSettings.allowCreateTickets ? 'on' : ''}" data-key="allowCreateTickets" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📝 Регистрация пользователей</div></div><div class="toggle ${systemSettings.allowUserRegistration ? 'on' : ''}" data-key="allowUserRegistration" onclick="toggleSysSetting(this)"></div></div>
-        </div>
-        
-        <div class="card">
-            <div class="settings-group-title">🌐 Функции сайта</div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">💬 Чаты</div></div><div class="toggle ${systemSettings.enableChat ? 'on' : ''}" data-key="enableChat" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🗺️ Карта</div></div><div class="toggle ${systemSettings.enableMap ? 'on' : ''}" data-key="enableMap" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📜 Жалобы</div></div><div class="toggle ${systemSettings.enableComplaints ? 'on' : ''}" data-key="enableComplaints" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">⭐ Избранное</div></div><div class="toggle ${systemSettings.enableFavorites ? 'on' : ''}" data-key="enableFavorites" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📚 Советы</div></div><div class="toggle ${systemSettings.enableTips ? 'on' : ''}" data-key="enableTips" onclick="toggleSysSetting(this)"></div></div>
-            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🆘 Поддержка</div></div><div class="toggle ${systemSettings.enableSupport ? 'on' : ''}" data-key="enableSupport" onclick="toggleSysSetting(this)"></div></div>
-        </div>
-        
-        <div class="card">
-            <div class="settings-group-title">💬 Приветствие</div>
-            <div class="toggle-row">
-                <div class="toggle-row-info">
-                    <div class="toggle-row-title">👋 Показывать приветствие</div>
-                </div>
-                <div class="toggle ${systemSettings.showWelcomeMessage ? 'on' : ''}" data-key="showWelcomeMessage" onclick="toggleSysSetting(this)"></div>
-            </div>
-            <div class="form-group" style="margin-top:12px;">
-                <label class="form-label">Текст приветствия</label>
-                <input type="text" class="form-input" value="${systemSettings.welcomeMessage}" onchange="updateSysSetting('welcomeMessage', this.value)">
-            </div>
-        </div>
-    `;
-}
-
-// ====================================================================
-// ИНИЦИАЛИЗАЦИЯ
-// ====================================================================
-function initApp() {
-    applySettings();
-    navigateTo('home');
-    
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const page = this.dataset.page;
-            if (page === 'settings') {
-                openSettings();
-            } else {
-                navigateTo(page);
-            }
-        });
-    });
-    
-    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('open');
-    });
-}
-
-// Загружаем данные при старте
-db.collection('tips').onSnapshot(snapshot => {
-    tips = [];
-    snapshot.forEach(doc => tips.push({ id: doc.id, ...doc.data() }));
-    if (currentPage === 'tips' || currentPage === 'home') renderPage();
-});
-
-db.collection('categories').onSnapshot(snapshot => {
-    categories = [];
-    snapshot.forEach(doc => categories.push({ id: doc.id, ...doc.data() }));
-});
-
-db.collection('tickets').onSnapshot(snapshot => {
-    tickets = [];
-    snapshot.forEach(doc => tickets.push({ id: doc.id, ...doc.data() }));
-});
-
-db.collection('users').onSnapshot(snapshot => {
-    users = [];
-    snapshot.forEach(doc => users.push({ id: doc.id, ...doc.data() }));
-});
