@@ -39,6 +39,30 @@ let userSettings = {
     nightMode: false
 };
 
+let systemSettings = {
+    maintenanceMode: false,
+    registrationRequired: false,
+    globalBannerEnabled: false,
+    globalBannerText: '',
+    globalBannerType: 'info',
+    globalBannerIcon: '📢',
+    allowDeleteAccount: true,
+    allowChangePassword: true,
+    allowChangeName: true,
+    allowCreateTips: true,
+    allowCreateTasks: true,
+    allowCreateTickets: true,
+    allowUserRegistration: true,
+    enableChat: true,
+    enableMap: true,
+    enableComplaints: true,
+    enableFavorites: true,
+    enableTips: true,
+    enableSupport: true,
+    showWelcomeMessage: true,
+    welcomeMessage: 'Добро пожаловать в Щит!'
+};
+
 // ====================================================================
 // АВТОРИЗАЦИЯ
 // ====================================================================
@@ -51,8 +75,8 @@ auth.onAuthStateChanged(async (user) => {
             role: user.email === 'kowtunov.k@yandex.ru' ? 'root' : 'user'
         };
         
-        // Загружаем настройки из Firestore
         await loadUserSettings();
+        await loadSystemSettings();
         
         document.getElementById('authScreen').style.display = 'none';
         initApp();
@@ -136,6 +160,42 @@ async function saveUserSettings() {
 }
 
 // ====================================================================
+// СИСТЕМНЫЕ НАСТРОЙКИ
+// ====================================================================
+async function loadSystemSettings() {
+    try {
+        const doc = await db.collection('settings').doc('system').get();
+        if (doc.exists) {
+            systemSettings = { ...systemSettings, ...doc.data() };
+        }
+    } catch (e) {
+        console.error('Ошибка загрузки системных настроек:', e);
+    }
+}
+
+async function saveSystemSettings() {
+    try {
+        await db.collection('settings').doc('system').set(systemSettings, { merge: true });
+    } catch (e) {
+        console.error('Ошибка сохранения системных настроек:', e);
+    }
+}
+
+window.toggleSysSetting = function(el) {
+    const key = el.dataset.key;
+    systemSettings[key] = !systemSettings[key];
+    saveSystemSettings();
+    el.classList.toggle('on');
+    showToast('success', 'Настройка изменена', key);
+};
+
+window.updateSysSetting = function(key, value) {
+    systemSettings[key] = value;
+    saveSystemSettings();
+    showToast('success', 'Сохранено', key);
+};
+
+// ====================================================================
 // TOAST УВЕДОМЛЕНИЯ
 // ====================================================================
 window.showToast = function(type, title, message, duration) {
@@ -210,7 +270,6 @@ function updateUserInfo() {
         avatar.style.background = userSettings.avatarColor;
     }
     
-    // Показываем админку только ROOT
     document.getElementById('adminSection').style.display = currentUser.role === 'root' ? 'block' : 'none';
 }
 
@@ -598,7 +657,6 @@ function renderHistory(c) {
     c.innerHTML = '<div class="page-title">📜 История</div><div class="page-subtitle">Ваши действия</div><div class="empty-state"><div class="empty-state-icon">📜</div><div>История пуста</div></div>';
 }
 
-// Админские страницы — заглушки
 function renderDashboard(c) { c.innerHTML = '<div class="page-title">📊 Дашборд</div><div class="page-subtitle">В разработке</div>'; }
 function renderUsers(c) { c.innerHTML = '<div class="page-title">👥 Пользователи</div><div class="page-subtitle">В разработке</div>'; }
 function renderTickets(c) { c.innerHTML = '<div class="page-title">🎫 Тикеты</div><div class="page-subtitle">В разработке</div>'; }
@@ -609,8 +667,100 @@ function renderKicks(c) { c.innerHTML = '<div class="page-title">👢 Кикну
 function renderTasks(c) { c.innerHTML = '<div class="page-title">📋 Задачи</div><div class="page-subtitle">В разработке</div>'; }
 function renderCategories(c) { c.innerHTML = '<div class="page-title">📂 Категории</div><div class="page-subtitle">В разработке</div>'; }
 function renderLogs(c) { c.innerHTML = '<div class="page-title">📋 Логи</div><div class="page-subtitle">В разработке</div>'; }
-function renderSystem(c) { c.innerHTML = '<div class="page-title">🔧 Системные</div><div class="page-subtitle">В разработке</div>'; }
 function renderData(c) { c.innerHTML = '<div class="page-title">💾 Данные</div><div class="page-subtitle">В разработке</div>'; }
+
+function renderSystem(c) {
+    if (currentUser.role !== 'root') {
+        c.innerHTML = '<div class="page-title">🔧 Системные настройки</div><div class="page-subtitle">Доступ запрещён</div><div class="empty-state"><div class="empty-state-icon">🔒</div><div>Только ROOT может управлять системными настройками</div></div>';
+        return;
+    }
+    
+    c.innerHTML = `
+        <div class="page-title">🔧 Системные настройки</div>
+        <div class="page-subtitle">Только для ROOT</div>
+        
+        <div class="card">
+            <div class="settings-group-title">🚦 Режимы работы</div>
+            <div class="toggle-row">
+                <div class="toggle-row-info">
+                    <div class="toggle-row-title">🔧 Режим обслуживания</div>
+                    <div style="font-size:0.75em;color:var(--text-muted);">Закрыть сайт для всех кроме ROOT</div>
+                </div>
+                <div class="toggle ${systemSettings.maintenanceMode ? 'on' : ''}" data-key="maintenanceMode" onclick="toggleSysSetting(this)"></div>
+            </div>
+            <div class="toggle-row">
+                <div class="toggle-row-info">
+                    <div class="toggle-row-title">🔒 Обязательная регистрация</div>
+                    <div style="font-size:0.75em;color:var(--text-muted);">Требовать вход для всех</div>
+                </div>
+                <div class="toggle ${systemSettings.registrationRequired ? 'on' : ''}" data-key="registrationRequired" onclick="toggleSysSetting(this)"></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="settings-group-title">📢 Глобальный баннер</div>
+            <div class="toggle-row">
+                <div class="toggle-row-info">
+                    <div class="toggle-row-title">🎯 Показать баннер</div>
+                    <div style="font-size:0.75em;color:var(--text-muted);">Показывать всем пользователям</div>
+                </div>
+                <div class="toggle ${systemSettings.globalBannerEnabled ? 'on' : ''}" data-key="globalBannerEnabled" onclick="toggleSysSetting(this)"></div>
+            </div>
+            <div class="form-group" style="margin-top:12px;">
+                <label class="form-label">Иконка</label>
+                <input type="text" class="form-input" id="bannerIcon" value="${systemSettings.globalBannerIcon}" onchange="updateSysSetting('globalBannerIcon', this.value)">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Текст баннера</label>
+                <input type="text" class="form-input" id="bannerText" value="${systemSettings.globalBannerText}" onchange="updateSysSetting('globalBannerText', this.value)" placeholder="Введите текст...">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Тип</label>
+                <select class="form-select" onchange="updateSysSetting('globalBannerType', this.value)">
+                    <option value="info" ${systemSettings.globalBannerType === 'info' ? 'selected' : ''}>ℹ️ Инфо</option>
+                    <option value="warning" ${systemSettings.globalBannerType === 'warning' ? 'selected' : ''}>⚠️ Предупреждение</option>
+                    <option value="danger" ${systemSettings.globalBannerType === 'danger' ? 'selected' : ''}>🚨 Важное</option>
+                    <option value="success" ${systemSettings.globalBannerType === 'success' ? 'selected' : ''}>✅ Успех</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="settings-group-title">🎛 Разрешения пользователей</div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">👤 Удаление аккаунтов</div></div><div class="toggle ${systemSettings.allowDeleteAccount ? 'on' : ''}" data-key="allowDeleteAccount" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🔑 Смена паролей</div></div><div class="toggle ${systemSettings.allowChangePassword ? 'on' : ''}" data-key="allowChangePassword" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🏷 Смена имени</div></div><div class="toggle ${systemSettings.allowChangeName ? 'on' : ''}" data-key="allowChangeName" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📚 Создание советов</div></div><div class="toggle ${systemSettings.allowCreateTips ? 'on' : ''}" data-key="allowCreateTips" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📋 Создание задач</div></div><div class="toggle ${systemSettings.allowCreateTasks ? 'on' : ''}" data-key="allowCreateTasks" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🎫 Создание тикетов</div></div><div class="toggle ${systemSettings.allowCreateTickets ? 'on' : ''}" data-key="allowCreateTickets" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📝 Регистрация пользователей</div></div><div class="toggle ${systemSettings.allowUserRegistration ? 'on' : ''}" data-key="allowUserRegistration" onclick="toggleSysSetting(this)"></div></div>
+        </div>
+        
+        <div class="card">
+            <div class="settings-group-title">🌐 Функции сайта</div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">💬 Чаты</div></div><div class="toggle ${systemSettings.enableChat ? 'on' : ''}" data-key="enableChat" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🗺️ Карта</div></div><div class="toggle ${systemSettings.enableMap ? 'on' : ''}" data-key="enableMap" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📜 Жалобы</div></div><div class="toggle ${systemSettings.enableComplaints ? 'on' : ''}" data-key="enableComplaints" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">⭐ Избранное</div></div><div class="toggle ${systemSettings.enableFavorites ? 'on' : ''}" data-key="enableFavorites" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">📚 Советы</div></div><div class="toggle ${systemSettings.enableTips ? 'on' : ''}" data-key="enableTips" onclick="toggleSysSetting(this)"></div></div>
+            <div class="toggle-row"><div class="toggle-row-info"><div class="toggle-row-title">🆘 Поддержка</div></div><div class="toggle ${systemSettings.enableSupport ? 'on' : ''}" data-key="enableSupport" onclick="toggleSysSetting(this)"></div></div>
+        </div>
+        
+        <div class="card">
+            <div class="settings-group-title">💬 Приветствие</div>
+            <div class="toggle-row">
+                <div class="toggle-row-info">
+                    <div class="toggle-row-title">👋 Показывать приветствие</div>
+                </div>
+                <div class="toggle ${systemSettings.showWelcomeMessage ? 'on' : ''}" data-key="showWelcomeMessage" onclick="toggleSysSetting(this)"></div>
+            </div>
+            <div class="form-group" style="margin-top:12px;">
+                <label class="form-label">Текст приветствия</label>
+                <input type="text" class="form-input" value="${systemSettings.welcomeMessage}" onchange="updateSysSetting('welcomeMessage', this.value)">
+            </div>
+        </div>
+    `;
+}
 
 // ====================================================================
 // ИНИЦИАЛИЗАЦИЯ
